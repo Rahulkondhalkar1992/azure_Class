@@ -16,9 +16,11 @@ export default function Footer() {
           <div className="mt-3 flex flex-col gap-2 text-slate-500 dark:text-slate-400">
             <Link to="/syllabus">Syllabus</Link>
             <Link to="/interview">Interview questions</Link>
-            <Link to="/labs">SQL & Python labs</Link>
             <Link to="/project">Industry project</Link>
+            <p className="pt-1 font-semibold text-slate-700 dark:text-slate-200">Tools</p>
+            <Link to="/labs">SQL & Python labs</Link>
             <Link to="/whiteboard">Whiteboard</Link>
+            <Link to="/resume">Resume builder</Link>
           </div>
         </div>
         <div className="text-sm">

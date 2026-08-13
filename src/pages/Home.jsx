@@ -73,7 +73,7 @@ export default function Home() {
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
           Skills, careers, certifications
         </p>
-        <h2 className="mt-2 font-display text-3xl font-bold">Fifteen modules. One lakehouse path.</h2>
+        <h2 className="mt-2 font-display text-3xl font-bold">Sixteen modules. One lakehouse path.</h2>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {syllabus.slice(0, 6).map((m) => (
             <Link key={m.id} to="/syllabus" className="card p-5 transition hover:-translate-y-0.5">

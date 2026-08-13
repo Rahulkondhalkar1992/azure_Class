@@ -149,3 +149,32 @@ body {
     animation: none;
   }
 }
+
+.resume-sheet {
+  min-height: 1120px;
+}
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  #resume-print-root,
+  #resume-print-root * {
+    visibility: visible !important;
+  }
+
+  #resume-print-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    box-shadow: none !important;
+  }
+
+  @page {
+    margin: 12mm;
+    size: A4;
+  }
+}
