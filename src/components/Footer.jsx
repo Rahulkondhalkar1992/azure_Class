@@ -18,13 +18,16 @@ export default function Footer() {
             <Link to="/interview">Interview questions</Link>
             <Link to="/project">Industry project</Link>
             <p className="pt-1 font-semibold text-slate-700 dark:text-slate-200">Tools</p>
+            <Link to="/quiz">Self-assessment quiz</Link>
             <Link to="/labs">SQL & Python labs</Link>
             <Link to="/whiteboard">Whiteboard</Link>
             <Link to="/resume">Resume builder</Link>
+            <Link to="/faq">FAQ</Link>
+            <Link to="/glossary">Glossary</Link>
           </div>
         </div>
         <div className="text-sm">
-          <p className="font-semibold">Mentors</p>
+          <p className="font-semibold">Join Us</p>
           <div className="mt-3 space-y-2 text-slate-500 dark:text-slate-400">
             {mentors.map((m) => (
               <p key={m.phone}>
@@ -32,7 +35,7 @@ export default function Footer() {
               </p>
             ))}
             <Link to="/contact" className="text-azure-600 dark:text-azure-400">
-              Contact / WhatsApp
+              Join Us / WhatsApp
             </Link>
           </div>
         </div>

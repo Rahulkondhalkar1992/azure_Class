@@ -11,6 +11,9 @@ import Contact from './pages/Contact.jsx'
 import UpcomingAI from './pages/UpcomingAI.jsx'
 import Labs from './pages/Labs.jsx'
 import ResumeBuilder from './pages/ResumeBuilder.jsx'
+import Quiz from './pages/Quiz.jsx'
+import Faq from './pages/Faq.jsx'
+import Glossary from './pages/Glossary.jsx'
 
 export default function App() {
   const { pathname } = useLocation()
@@ -29,6 +32,9 @@ export default function App() {
           <Route path="/whiteboard" element={<Whiteboard />} />
           <Route path="/labs" element={<Labs />} />
           <Route path="/resume" element={<ResumeBuilder />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/glossary" element={<Glossary />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/ai" element={<UpcomingAI />} />
           <Route path="*" element={<Navigate to="/" replace />} />

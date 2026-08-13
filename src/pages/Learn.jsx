@@ -58,6 +58,15 @@ const steps = [
   { n: '03', t: 'Build, then break-fix', d: 'Labs and assignments first. Interview questions after you have scars, not before.' },
 ]
 
+const joinUsPerks = [
+  'Naukri profile update and data-engineering resume creation',
+  'Interview preparation with quizzes, banks, and mentor feedback',
+  'Career guidance mapped to Azure DE roles',
+  'After-class support for doubts and assignments',
+  'Talk with industry experts from real delivery backgrounds',
+  'Small batches of 8 people for live attention',
+]
+
 export default function Learn() {
   return (
     <div className="container-page py-14">
@@ -112,6 +121,24 @@ export default function Learn() {
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{s.d}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-14 card p-6">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
+          Join Us
+        </p>
+        <h2 className="mt-2 font-display text-2xl font-semibold">More than classes — career support included.</h2>
+        <ul className="mt-4 grid gap-2 sm:grid-cols-2 text-sm text-slate-600 dark:text-slate-300">
+          {joinUsPerks.map((item) => (
+            <li key={item} className="flex gap-2">
+              <span className="text-emerald-500">✓</span>
+              {item}
+            </li>
+          ))}
+        </ul>
+        <Link to="/contact" className="btn-primary mt-6">
+          Join Us
+        </Link>
       </div>
 
       <div className="mt-14 grid gap-6 lg:grid-cols-2">

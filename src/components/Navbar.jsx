@@ -9,13 +9,16 @@ const links = [
   { to: '/project', label: 'Project' },
   { to: '/interview', label: 'Interview' },
   { to: '/ai', label: 'AI + Databricks' },
-  { to: '/contact', label: 'Contact' },
+  { to: '/contact', label: 'Join Us' },
 ]
 
 const toolLinks = [
+  { to: '/quiz', label: 'Self-assessment Quiz', hint: 'Timed module quizzes by experience' },
   { to: '/labs', label: 'SQL & Python Labs', hint: 'Practice queries and code' },
   { to: '/whiteboard', label: 'Whiteboard', hint: 'Draw lakehouse architecture' },
   { to: '/resume', label: 'Resume Builder', hint: 'DE resume with PDF download' },
+  { to: '/faq', label: 'FAQ', hint: 'Batches, support, and program answers' },
+  { to: '/glossary', label: 'Glossary', hint: 'DE, cloud, and big data terms' },
 ]
 
 const linkClass = ({ isActive }) =>
@@ -128,7 +131,7 @@ export default function Navbar() {
             {theme === 'dark' ? 'Light' : 'Dark'}
           </button>
           <Link to="/contact" className="btn-primary hidden sm:inline-flex !px-4 !py-2">
-            Join
+            Join Us
           </Link>
         </div>
       </div>

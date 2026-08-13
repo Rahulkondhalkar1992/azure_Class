@@ -5,7 +5,7 @@ const nodes = [
   { id: 'silver', label: 'Silver', sub: 'Delta clean', x: 372, y: 110 },
   { id: 'gold', label: 'Gold', sub: 'Star / facts', x: 372, y: 172 },
   { id: 'dbx', label: 'Databricks', sub: 'Spark · UC', x: 560, y: 110 },
-  { id: 'serve', label: 'Serve', sub: 'SQL · BI', x: 730, y: 110 },
+  { id: 'serve', label: 'Warehouse', sub: 'SQL · BI · DS', x: 730, y: 110 },
 ]
 
 export default function PipelineAnimation() {

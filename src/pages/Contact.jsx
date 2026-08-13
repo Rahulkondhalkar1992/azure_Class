@@ -1,19 +1,56 @@
 import { FaWhatsapp } from 'react-icons/fa'
+import { FiAward, FiHeadphones, FiLinkedin, FiUsers } from 'react-icons/fi'
 import JoinForm from '../components/JoinForm.jsx'
 import { mentors, whatsappHref } from '../data/contacts.js'
 
 const intro = 'Hi, I want to join AZ Learning — Azure Data Engineering Master Program.'
 
+const joinBenefits = [
+  {
+    icon: FiLinkedin,
+    title: 'Naukri profile + resume',
+    body: 'Get Naukri profile updates, DE-focused resume creation, and guidance on how to present ADF / Databricks projects.',
+  },
+  {
+    icon: FiAward,
+    title: 'Interview preparation',
+    body: 'Timed quizzes, interview banks, and mentor feedback so you can handle SQL, ADF design, Spark, and architecture rounds.',
+  },
+  {
+    icon: FiHeadphones,
+    title: 'After-class support',
+    body: 'Doubts, assignments, and follow-ups do not stop when the live session ends — mentors stay available for support.',
+  },
+  {
+    icon: FiUsers,
+    title: 'Talk with industry experts',
+    body: 'Learn directly from practitioners (Hexaware / Capgemini backgrounds) and get career guidance for real Azure DE roles.',
+  },
+]
+
 export default function Contact() {
   return (
     <div className="container-page py-14">
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
-        Contact us
+        Join Us
       </p>
-      <h1 className="mt-2 font-display text-4xl font-bold">Talk to the people who teach it.</h1>
-      <p className="mt-3 max-w-xl text-slate-600 dark:text-slate-300">
-        Two mentors, two numbers, WhatsApp on both. Pick a person or send the join form.
+      <h1 className="mt-2 font-display text-4xl font-bold">Join a focused 8-person batch.</h1>
+      <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+        Small cohorts, live mentoring, and career support — Naukri profile updates, resume creation,
+        interview preparation, after-class help, and conversations with industry experts.
       </p>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {joinBenefits.map(({ icon: Icon, title, body }) => (
+          <article key={title} className="card p-5">
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-azure-500/10 text-azure-600 dark:text-azure-400">
+              <Icon size={18} />
+            </span>
+            <h2 className="mt-3 font-display text-lg font-semibold">{title}</h2>
+            <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{body}</p>
+          </article>
+        ))}
+      </div>
 
       <div className="mt-10 grid gap-6 lg:grid-cols-2">
         <div className="space-y-4">

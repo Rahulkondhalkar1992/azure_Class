@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTheme } from '../context/ThemeContext.jsx'
 import {
   convertToExcalidrawElements,
@@ -7,6 +7,7 @@ import {
   exportToSvg,
 } from '@excalidraw/excalidraw'
 import '@excalidraw/excalidraw/index.css'
+import { diagramToExcalidrawSkeleton, lakehouseDiagrams } from '../data/diagrams.js'
 
 const services = [
   ['🔄  Azure Data Factory', '#0078D4', '#e8f4fc'],
@@ -54,11 +55,22 @@ function download(blob, filename) {
   URL.revokeObjectURL(url)
 }
 
-export default function ExcalidrawCanvas() {
+export default function ExcalidrawCanvas({ diagramId = null }) {
   const { theme } = useTheme()
   const shellRef = useRef(null)
   const apiRef = useRef(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
+
+  const initialElements = useMemo(() => {
+    if (!diagramId) return undefined
+    const diagram = lakehouseDiagrams.find((d) => d.id === diagramId)
+    if (!diagram) return undefined
+    try {
+      return convertToExcalidrawElements(diagramToExcalidrawSkeleton(diagram))
+    } catch {
+      return undefined
+    }
+  }, [diagramId])
 
   useEffect(() => {
     const onFullscreenChange = () => setIsFullscreen(document.fullscreenElement === shellRef.current)
@@ -127,7 +139,10 @@ export default function ExcalidrawCanvas() {
           excalidrawAPI={(api) => {
             apiRef.current = api
           }}
-          initialData={{ libraryItems: architectureLibrary }}
+          initialData={{
+            libraryItems: architectureLibrary,
+            ...(initialElements ? { elements: initialElements, scrollToContent: true } : {}),
+          }}
           UIOptions={{
             canvasActions: {
               export: { saveFileToDisk: true },
