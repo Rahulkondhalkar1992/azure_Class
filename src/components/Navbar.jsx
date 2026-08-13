@@ -21,7 +21,7 @@ export default function Navbar() {
       <div className="container-page flex h-16 items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2.5">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-azure-500 font-display text-sm font-bold text-white">
-            AZ
+            Azure
           </span>
           <span className="font-display text-lg font-semibold tracking-tight">
             Learning
