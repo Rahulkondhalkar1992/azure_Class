@@ -21,7 +21,7 @@ export const faqs = [
   },
   {
     q: 'What career support do I get when I Join Us?',
-    a: 'You get Naukri profile updates, resume creation help, interview preparation, career guidance, after-class support, and conversations with industry experts from Hexaware and Capgemini backgrounds.',
+    a: 'You get Naukri profile updates, resume creation help, interview preparation, career guidance, after-class support, and conversations with industry experts.',
   },
   {
     q: 'Do you help with interviews and resume?',

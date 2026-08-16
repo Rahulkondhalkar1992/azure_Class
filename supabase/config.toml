@@ -1,0 +1,9 @@
+{
+  "name": "azure-learning",
+  "version": "1.0.0",
+  "functions": {
+    "admin-users": {
+      "verify_jwt": true
+    }
+  }
+}

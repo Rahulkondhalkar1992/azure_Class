@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { FaWhatsapp } from 'react-icons/fa'
 import { FiAward, FiHeadphones, FiLinkedin, FiUsers } from 'react-icons/fi'
 import JoinForm from '../components/JoinForm.jsx'
@@ -24,13 +25,23 @@ const joinBenefits = [
   {
     icon: FiUsers,
     title: 'Talk with industry experts',
-    body: 'Learn directly from practitioners (Hexaware / Capgemini backgrounds) and get career guidance for real Azure DE roles.',
+    body: 'Learn directly from practitioners and get career guidance for real Azure DE roles.',
   },
 ]
 
-export default function Contact() {
+export default function Contact({ guest = false }) {
   return (
     <div className="container-page py-14">
+      {guest && (
+        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
+          <Link to="/login" className="text-sm font-semibold text-azure-600 hover:underline dark:text-azure-400">
+            ← Back to Sign in
+          </Link>
+          <span className="font-display text-sm font-semibold text-slate-700 dark:text-slate-200">
+            Azure Learning · Join Us
+          </span>
+        </div>
+      )}
       <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
         Join Us
       </p>
@@ -57,9 +68,6 @@ export default function Contact() {
           {mentors.map((m) => (
             <article key={m.phone} className="card p-6">
               <h2 className="font-display text-xl font-semibold">{m.name}</h2>
-              <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-                {m.role}, {m.company}
-              </p>
               <p className="mt-3 font-mono text-lg">{m.phone}</p>
               <a
                 href={whatsappHref(m.wa, intro)}

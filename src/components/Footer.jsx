@@ -31,7 +31,7 @@ export default function Footer() {
           <div className="mt-3 space-y-2 text-slate-500 dark:text-slate-400">
             {mentors.map((m) => (
               <p key={m.phone}>
-                {m.name} · {m.company}
+                {m.name} · {m.phone}
               </p>
             ))}
             <Link to="/contact" className="text-azure-600 dark:text-azure-400">
