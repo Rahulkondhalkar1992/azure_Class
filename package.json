@@ -1,12 +1,16 @@
 {
-  "name": "az-learning",
+  "name": "vedx-ai-platform",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev:learning": "vite",
+    "dev:vedx": "npm --prefix vedx run dev",
+    "build": "node scripts/build-all.mjs",
+    "build:learning": "vite build --outDir .build/azure-learning --emptyOutDir",
+    "build:vedx": "npm --prefix vedx run build",
+    "preview": "npx serve combined-dist"
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.18.0",

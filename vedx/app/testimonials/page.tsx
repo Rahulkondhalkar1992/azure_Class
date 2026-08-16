@@ -1,0 +1,4 @@
+import { testimonials } from '@/data/site'
+
+export const metadata={title:'Client Testimonials',description:'What business owners, healthcare clients, founders, and operators say about Ved-X AI.'}
+export default function Testimonials(){return <><section className="page-hero"><div className="shell"><span className="eyebrow">Testimonials</span><h1>Technology earns trust when it improves the day-to-day.</h1><p className="section-copy">Stories from the business owners and operating teams VedX designs for.</p></div></section><section className="section"><div className="shell"><div className="cards-3">{testimonials.map(([n,r,q])=><blockquote className="quote card" key={n}><q>{q}</q><footer>{n}<small style={{display:'block',color:'#64748b',fontWeight:500}}>{r}</small></footer></blockquote>)}</div></div></section></>}

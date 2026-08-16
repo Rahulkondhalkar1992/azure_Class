@@ -1,5 +1,10 @@
 node_modules
 dist
+combined-dist
+.build
+vedx/node_modules
+vedx/.next
+vedx/out
 .vercel
 .DS_Store
 *.log

@@ -1,12 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
+  "installCommand": "npm install && npm --prefix vedx install",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "rewrites": [
+  "outputDirectory": "combined-dist",
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "handle": "filesystem"
+    },
+    {
+      "src": "/azure-learning(?:/.*)?",
+      "dest": "/azure-learning/index.html"
     }
   ]
 }
