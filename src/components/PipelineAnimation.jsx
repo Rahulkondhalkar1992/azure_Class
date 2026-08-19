@@ -1,98 +1,100 @@
-const nodes = [
-  { id: 'src', label: 'Sources', sub: 'SQL · API · Files', x: 48, y: 110 },
-  { id: 'adf', label: 'ADF', sub: 'Orchestrate', x: 210, y: 110 },
-  { id: 'bronze', label: 'Bronze', sub: 'ADLS raw', x: 372, y: 48 },
-  { id: 'silver', label: 'Silver', sub: 'Delta clean', x: 372, y: 110 },
-  { id: 'gold', label: 'Gold', sub: 'Star / facts', x: 372, y: 172 },
-  { id: 'dbx', label: 'Databricks', sub: 'Spark · UC', x: 560, y: 110 },
-  { id: 'serve', label: 'Warehouse', sub: 'SQL · BI · DS', x: 730, y: 110 },
-]
-
 export default function PipelineAnimation() {
   return (
     <div className="card overflow-hidden p-4 sm:p-6">
       <div className="mb-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
-            Lakehouse ELT
+            🏗 End-to-End Project Architecture
           </p>
-          <h3 className="font-display text-lg font-semibold">Medallion pipeline in motion</h3>
+          <h3 className="font-display text-lg font-semibold">
+            The pipeline you'll build, layer by layer
+          </h3>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            A sample reference architecture — the same shape you'll implement live in Sessions 13–14.
+          </p>
         </div>
         <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
           Running
         </span>
       </div>
 
-      <div className="relative overflow-x-auto">
-        <svg viewBox="0 0 800 230" className="h-auto min-w-[640px] w-full">
+      <div className="relative overflow-x-auto rounded-2xl border border-white/[0.09] bg-[#111A2C] p-5 sm:p-8">
+        <svg viewBox="0 0 920 300" className="block h-auto min-w-[720px] w-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="line" x1="0" x2="1">
-              <stop offset="0%" stopColor="#0078D4" stopOpacity="0.2" />
-              <stop offset="50%" stopColor="#0078D4" />
-              <stop offset="100%" stopColor="#FF3621" stopOpacity="0.8" />
-            </linearGradient>
-            <path id="p1" d="M96 110 H210" />
-            <path id="p2" d="M258 110 H372" />
-            <path id="p3" d="M420 110 H560" />
-            <path id="p4" d="M608 110 H730" />
-            <path id="pB" d="M372 86 V64" />
-            <path id="pG" d="M372 134 V172" />
+            <style>{`
+              .flow-line{fill:none;stroke:#2FD9E8;stroke-width:1.6;stroke-dasharray:6 7;opacity:0.75;animation:dash 2.4s linear infinite}
+              .flow-line.violet{stroke:#9B8CFB;animation-duration:3s}
+              @keyframes dash{to{stroke-dashoffset:-130}}
+              @media(prefers-reduced-motion:reduce){.flow-line{animation:none}}
+            `}</style>
           </defs>
 
-          <path d="M96 110 H730" stroke="url(#line)" strokeWidth="2" fill="none" />
-          <path d="M372 64 V172" stroke="#0078D4" strokeOpacity="0.35" strokeWidth="2" fill="none" />
+          {/* Column headers */}
+          <text x="30" y="24" fill="#5C687E" fontFamily="'JetBrains Mono', monospace" fontSize="11">INGEST</text>
+          <text x="230" y="24" fill="#5C687E" fontFamily="'JetBrains Mono', monospace" fontSize="11">BRONZE</text>
+          <text x="430" y="24" fill="#5C687E" fontFamily="'JetBrains Mono', monospace" fontSize="11">SILVER</text>
+          <text x="630" y="24" fill="#5C687E" fontFamily="'JetBrains Mono', monospace" fontSize="11">GOLD</text>
+          <text x="800" y="24" fill="#5C687E" fontFamily="'JetBrains Mono', monospace" fontSize="11">SERVE</text>
 
-          <circle r="5" fill="#0078D4">
-            <animateMotion dur="4.8s" repeatCount="indefinite">
-              <mpath href="#p1" />
-            </animateMotion>
-          </circle>
-          <circle r="5" fill="#3aa0e8">
-            <animateMotion dur="4.8s" begin="0.8s" repeatCount="indefinite">
-              <mpath href="#p2" />
-            </animateMotion>
-          </circle>
-          <circle r="5" fill="#FF3621">
-            <animateMotion dur="4.8s" begin="1.4s" repeatCount="indefinite">
-              <mpath href="#p3" />
-            </animateMotion>
-          </circle>
-          <circle r="5" fill="#22c55e">
-            <animateMotion dur="4.8s" begin="2s" repeatCount="indefinite">
-              <mpath href="#p4" />
-            </animateMotion>
-          </circle>
+          {/* Source Systems */}
+          <rect x="20" y="60" width="150" height="52" rx="10" fill="#152238" stroke="#232E45" />
+          <text x="36" y="82" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Source Systems</text>
+          <text x="36" y="99" fill="#8B96AC" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">SQL DB · REST API · Files</text>
 
-          {nodes.map((n) => (
-            <g key={n.id} transform={`translate(${n.x}, ${n.y})`}>
-              <rect
-                x="-48"
-                y="-28"
-                width="96"
-                height="56"
-                rx="14"
-                className="fill-white stroke-slate-200 dark:fill-[#12182a] dark:stroke-white/10"
-              />
-              <text
-                textAnchor="middle"
-                y="-4"
-                className="fill-slate-900 text-[12px] font-semibold dark:fill-white"
-              >
-                {n.label}
-              </text>
-              <text textAnchor="middle" y="14" className="fill-slate-500 text-[9px] dark:fill-slate-400">
-                {n.sub}
-              </text>
-            </g>
-          ))}
+          {/* ADF Metadata-driven */}
+          <rect x="20" y="150" width="150" height="52" rx="10" fill="#152238" stroke="#232E45" />
+          <text x="36" y="172" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Azure Data Factory</text>
+          <text x="36" y="189" fill="#8B96AC" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">Metadata-driven pipelines</text>
+
+          {/* Bronze */}
+          <rect x="220" y="105" width="150" height="52" rx="10" fill="#1a1408" stroke="#3a2a12" />
+          <text x="236" y="127" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Bronze Layer</text>
+          <text x="236" y="144" fill="#C9834A" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">Raw · ADLS Gen2</text>
+
+          {/* Silver */}
+          <rect x="420" y="105" width="150" height="52" rx="10" fill="#0f1620" stroke="#232E45" />
+          <text x="436" y="127" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Silver Layer</text>
+          <text x="436" y="144" fill="#AEB7C4" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">Cleansed · Databricks</text>
+
+          {/* Gold */}
+          <rect x="620" y="105" width="150" height="52" rx="10" fill="#1c1608" stroke="#3a2f12" />
+          <text x="636" y="127" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Gold Layer</text>
+          <text x="636" y="144" fill="#E4C570" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">Star schema · Delta</text>
+
+          {/* Power BI */}
+          <rect x="790" y="105" width="115" height="52" rx="10" fill="#152238" stroke="#232E45" />
+          <text x="806" y="127" fill="#fff" fontFamily="'Space Grotesk', sans-serif" fontSize="13" fontWeight="600">Power BI</text>
+          <text x="806" y="144" fill="#8B96AC" fontFamily="'JetBrains Mono', monospace" fontSize="10.5">Reporting</text>
+
+          {/* Unity Catalog */}
+          <rect x="220" y="220" width="520" height="42" rx="10" fill="none" stroke="#9B8CFB" strokeDasharray="4 4" opacity="0.55" />
+          <text x="236" y="245" fill="#9B8CFB" fontFamily="'JetBrains Mono', monospace" fontSize="11">
+            Unity Catalog — governance, schemas &amp; RBAC across Bronze → Silver → Gold
+          </text>
+
+          {/* Flow lines: Source → ADF → Bronze */}
+          <path className="flow-line" d="M170,86 L220,131" />
+          <path className="flow-line" d="M170,176 L220,131" />
+
+          {/* Bronze → Silver */}
+          <path className="flow-line" d="M370,131 L420,131" />
+
+          {/* Silver → Gold */}
+          <path className="flow-line" d="M570,131 L620,131" />
+
+          {/* Gold → Power BI */}
+          <path className="flow-line violet" d="M770,131 L790,131" />
         </svg>
+        <p className="mt-3 text-center font-mono text-xs text-[#5C687E]">
+          Sample architecture for illustration — the exact schema and sources are defined together during Sessions 13–14.
+        </p>
       </div>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-3">
         {[
-          { t: 'Extract', d: 'ADF Copy from SQL, files, and APIs into ADLS.' },
-          { t: 'Load', d: 'Land Bronze as-is. No business rules yet.' },
-          { t: 'Transform', d: 'Databricks + Delta build Silver and Gold.' },
+          { t: 'Extract', d: 'ADF metadata-driven Copy from SQL, files, and APIs into ADLS Bronze.' },
+          { t: 'Load', d: 'Land Bronze as-is. No business rules yet — raw and replayable.' },
+          { t: 'Transform', d: 'Databricks + Delta MERGE build Silver and Gold star schema.' },
         ].map((s, i) => (
           <div key={s.t} className="rounded-xl bg-slate-50 p-3 dark:bg-white/5">
             <p className="text-xs font-semibold text-azure-600 dark:text-azure-400">
