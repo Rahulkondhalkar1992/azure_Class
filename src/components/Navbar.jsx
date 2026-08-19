@@ -8,7 +8,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/learn', label: 'Learn with us' },
   { to: '/syllabus', label: 'Syllabus' },
-  { to: '/project', label: 'Project' },
+  { to: '/glossary', label: 'Glossary' },
   { to: '/interview', label: 'Interview' },
   { to: '/ai', label: 'AI + Databricks' },
   { to: '/contact', label: 'Join Us' },
@@ -19,8 +19,8 @@ const toolLinks = [
   { to: '/labs', label: 'SQL & Python Labs', hint: 'Practice queries and code' },
   { to: '/whiteboard', label: 'Whiteboard', hint: 'Draw lakehouse architecture' },
   { to: '/resume', label: 'Resume Builder', hint: 'DE resume with PDF download' },
+  { to: '/project', label: 'Industry Project', hint: 'Real-world lakehouse project walkthrough' },
   { to: '/faq', label: 'FAQ', hint: 'Batches, support, and program answers' },
-  { to: '/glossary', label: 'Glossary', hint: 'DE, cloud, and big data terms' },
 ]
 
 const linkClass = ({ isActive }) =>

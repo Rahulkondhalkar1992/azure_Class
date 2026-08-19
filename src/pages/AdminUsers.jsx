@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext.jsx'
-import { invokeAdminUsers, supabase } from '../lib/supabase.js'
+import { adminUsers, supabase } from '../lib/supabase.js'
 
 const emptyForm = {
   email: '',
@@ -45,7 +45,7 @@ export default function AdminUsers() {
     setSaving(true)
     setError('')
     try {
-      await invokeAdminUsers('create', {
+      await adminUsers.create({
         email: form.email,
         password: form.password,
         full_name: form.full_name,
@@ -67,12 +67,11 @@ export default function AdminUsers() {
     setSaving(true)
     setError('')
     try {
-      await invokeAdminUsers('update', {
+      await adminUsers.update({
         id: editing.id,
         full_name: editing.full_name,
         phone: editing.phone,
         is_active: editing.is_active,
-        password: editing.password || undefined,
       })
       setEditing(null)
       await loadUsers()
@@ -90,7 +89,7 @@ export default function AdminUsers() {
     }
     setError('')
     try {
-      await invokeAdminUsers('update', {
+      await adminUsers.update({
         id: row.id,
         is_active: !row.is_active,
       })
@@ -108,7 +107,7 @@ export default function AdminUsers() {
     if (!window.confirm(`Remove ${row.email}? This deletes their login.`)) return
     setError('')
     try {
-      await invokeAdminUsers('delete', { id: row.id })
+      await adminUsers.remove({ id: row.id })
       await loadUsers()
     } catch (err) {
       setError(err.message || 'Could not delete user')

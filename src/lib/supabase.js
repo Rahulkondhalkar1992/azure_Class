@@ -40,32 +40,73 @@ export const supabase = isSupabaseConfigured
     })
   : null
 
-export async function invokeAdminUsers(action, payload = {}) {
-  if (!supabase) throw new Error('Supabase is not configured')
-
-  const { data: sessionData } = await supabase.auth.getSession()
-  const accessToken = sessionData.session?.access_token
-  if (!accessToken) throw new Error('You must be signed in as an admin')
-
-  const { data, error } = await supabase.functions.invoke('admin-users', {
-    body: { action, ...payload },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
-
-  if (error) {
-    let message = error.message || 'Admin action failed'
-    try {
-      if (typeof error.context?.json === 'function') {
-        const body = await error.context.json()
-        if (body?.error) message = body.error
-      }
-    } catch {
-      // ignore
+export const adminUsers = {
+  async create({ email, password, full_name, phone, is_active }) {
+    if (!supabase) throw new Error('Supabase is not configured')
+    const trimmedEmail = email.trim().toLowerCase()
+    if (!trimmedEmail || !password || password.length < 6) {
+      throw new Error('Email and password (min 6 chars) are required')
     }
-    throw new Error(message)
-  }
-  if (data?.error) throw new Error(data.error)
-  return data
+
+    // Use signUp to create the Auth user (works with anon key).
+    // We save/restore the current admin session so signUp doesn't log us out.
+    const { data: adminSession } = await supabase.auth.getSession()
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email: trimmedEmail,
+      password,
+      options: {
+        data: { full_name: full_name || '', phone: phone || '' },
+        emailRedirectTo: window.location.origin + '/azure-learning/login',
+      },
+    })
+
+    // Restore admin session immediately
+    if (adminSession?.session) {
+      await supabase.auth.setSession(adminSession.session)
+    }
+
+    if (signUpError) throw new Error(signUpError.message)
+    const newUser = signUpData.user
+    if (!newUser) throw new Error('User creation failed — check if email already exists')
+
+    // Upsert profile (trigger may have already created it)
+    const { error: profileError } = await supabase.from('profiles').upsert({
+      id: newUser.id,
+      email: trimmedEmail,
+      full_name: (full_name || '').trim(),
+      phone: (phone || '').trim(),
+      role: 'learner',
+      is_active: is_active !== false,
+    })
+    if (profileError) throw new Error(profileError.message)
+
+    return { user: { id: newUser.id, email: trimmedEmail } }
+  },
+
+  async update({ id, full_name, phone, is_active }) {
+    if (!supabase) throw new Error('Supabase is not configured')
+    if (!id) throw new Error('User id required')
+
+    const updates = {}
+    if (typeof full_name === 'string') updates.full_name = full_name.trim()
+    if (typeof phone === 'string') updates.phone = phone.trim()
+    if (typeof is_active === 'boolean') updates.is_active = is_active
+
+    if (Object.keys(updates).length === 0) return { ok: true }
+
+    const { error } = await supabase.from('profiles').update(updates).eq('id', id)
+    if (error) throw new Error(error.message)
+    return { ok: true }
+  },
+
+  async remove({ id }) {
+    if (!supabase) throw new Error('Supabase is not configured')
+    if (!id) throw new Error('User id required')
+
+    // Delete profile (auth user remains but can't access with no active profile)
+    const { error } = await supabase.from('profiles').delete().eq('id', id).eq('role', 'learner')
+    if (error) throw new Error(error.message)
+    return { ok: true }
+  },
 }

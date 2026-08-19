@@ -44,8 +44,6 @@ function Guarded({ children, adminOnly = false }) {
 
 function ContactRoute() {
   const { user, isActive } = useAuth()
-  // Guests: no portal navbar (avoids bouncing into guarded Home/Syllabus links).
-  // Signed-in learners: normal chrome.
   const hideChrome = !(user && isActive)
   return (
     <Shell hideChrome={hideChrome}>
@@ -84,19 +82,24 @@ export default function App() {
         )}
       />
 
-      <Route path="/" element={<Guarded><Home /></Guarded>} />
-      <Route path="/learn" element={<Guarded><Learn /></Guarded>} />
-      <Route path="/syllabus" element={<Guarded><Syllabus /></Guarded>} />
-      <Route path="/project" element={<Guarded><Project /></Guarded>} />
-      <Route path="/interview" element={<Guarded><Interview /></Guarded>} />
-      <Route path="/whiteboard" element={<Guarded><Whiteboard /></Guarded>} />
-      <Route path="/labs" element={<Guarded><Labs /></Guarded>} />
-      <Route path="/resume" element={<Guarded><ResumeBuilder /></Guarded>} />
-      <Route path="/quiz" element={<Guarded><Quiz /></Guarded>} />
-      <Route path="/faq" element={<Guarded><Faq /></Guarded>} />
-      <Route path="/glossary" element={<Guarded><Glossary /></Guarded>} />
+      {/* Public pages — no login required */}
+      <Route path="/" element={<Shell><Home /></Shell>} />
+      <Route path="/learn" element={<Shell><Learn /></Shell>} />
+      <Route path="/syllabus" element={<Shell><Syllabus /></Shell>} />
+      <Route path="/interview" element={<Shell><Interview /></Shell>} />
+      <Route path="/ai" element={<Shell><UpcomingAI /></Shell>} />
+      <Route path="/glossary" element={<Shell><Glossary /></Shell>} />
       <Route path="/contact" element={<ContactRoute />} />
-      <Route path="/ai" element={<Guarded><UpcomingAI /></Guarded>} />
+      <Route path="/faq" element={<Shell><Faq /></Shell>} />
+
+      {/* Tools — login required */}
+      <Route path="/quiz" element={<Guarded><Quiz /></Guarded>} />
+      <Route path="/labs" element={<Guarded><Labs /></Guarded>} />
+      <Route path="/whiteboard" element={<Guarded><Whiteboard /></Guarded>} />
+      <Route path="/resume" element={<Guarded><ResumeBuilder /></Guarded>} />
+      <Route path="/project" element={<Guarded><Project /></Guarded>} />
+
+      {/* Account / Admin — login required */}
       <Route path="/account" element={<Guarded><Account /></Guarded>} />
       <Route path="/admin/users" element={<Guarded adminOnly><AdminUsers /></Guarded>} />
       <Route path="*" element={<Navigate to="/" replace />} />
