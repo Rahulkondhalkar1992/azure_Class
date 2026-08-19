@@ -12,15 +12,16 @@ const links = [
   { to: '/interview', label: 'Interview' },
   { to: '/ai', label: 'AI + Databricks' },
   { to: '/contact', label: 'Join Us' },
+  { to: '/faq', label: 'FAQ' },
 ]
 
 const toolLinks = [
+  { to: '/concepts', label: 'Concepts', hint: 'Animated DE concept visualizations' },
   { to: '/quiz', label: 'Self-assessment Quiz', hint: 'Timed module quizzes by experience' },
   { to: '/labs', label: 'SQL & Python Labs', hint: 'Practice queries and code' },
   { to: '/whiteboard', label: 'Whiteboard', hint: 'Draw lakehouse architecture' },
   { to: '/resume', label: 'Resume Builder', hint: 'DE resume with PDF download' },
   { to: '/project', label: 'Industry Project', hint: 'Real-world lakehouse project walkthrough' },
-  { to: '/faq', label: 'FAQ', hint: 'Batches, support, and program answers' },
 ]
 
 const linkClass = ({ isActive }) =>

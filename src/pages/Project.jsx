@@ -1,11 +1,5 @@
+import { Link } from 'react-router-dom'
 import PipelineAnimation from '../components/PipelineAnimation.jsx'
-import IncrementalLoad from '../components/concepts/IncrementalLoad.jsx'
-import BatchProcessing from '../components/concepts/BatchProcessing.jsx'
-import MergeInsert from '../components/concepts/MergeInsert.jsx'
-import CDCAnimation from '../components/concepts/CDCAnimation.jsx'
-import SCDType2 from '../components/concepts/SCDType2.jsx'
-import DeltaLogBenefits from '../components/concepts/DeltaLogBenefits.jsx'
-import StreamingDataFlow from '../components/concepts/StreamingDataFlow.jsx'
 
 const stages = [
   { t: 'Ingest', d: 'ADF metadata-driven pipelines pull source systems on schedule.' },
@@ -30,10 +24,9 @@ export default function Project() {
       </h1>
       <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
         Build a real medallion architecture end to end — ADF ingestion, Delta lakehouse, Spark transforms,
-        and Power BI reporting. Every concept below is animated so you see the data flow before writing code.
+        and Power BI reporting.
       </p>
 
-      {/* Architecture diagram */}
       <div className="mt-10">
         <PipelineAnimation />
       </div>
@@ -53,29 +46,23 @@ export default function Project() {
         ))}
       </div>
 
-      {/* Concept animations */}
-      <div className="mt-14">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
-          Core Concepts — Animated
-        </p>
-        <h2 className="mt-2 font-display text-2xl font-bold">
-          See the data move before you write the code
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
-          Each animation below shows exactly how a key lakehouse pattern works — watch the rows flow,
-          the logs commit, and the dimensions evolve in real time.
-        </p>
-      </div>
-
-      <div className="mt-8 space-y-6">
-        <IncrementalLoad />
-        <BatchProcessing />
-        <MergeInsert />
-        <CDCAnimation />
-        <SCDType2 />
-        <DeltaLogBenefits />
-        <StreamingDataFlow />
-      </div>
+      <Link
+        to="/concepts"
+        className="card mt-10 flex items-center justify-between gap-4 p-6 transition hover:ring-2 hover:ring-azure-500"
+      >
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
+            Animated Concepts
+          </p>
+          <p className="mt-1 font-display text-lg font-semibold">
+            See how every pattern works — CDC, SCD2, MERGE, streaming, and more
+          </p>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            16 animated visualizations covering Spark, Delta Lake, DLT, Unity Catalog, joins, caching, and data patterns.
+          </p>
+        </div>
+        <span className="text-2xl text-azure-500">→</span>
+      </Link>
     </div>
   )
 }

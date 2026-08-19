@@ -19,6 +19,7 @@ import Login from './pages/Login.jsx'
 import Inactive from './pages/Inactive.jsx'
 import Account from './pages/Account.jsx'
 import AdminUsers from './pages/AdminUsers.jsx'
+import Concepts from './pages/Concepts.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 
 function Shell({ children, hideChrome = false }) {
@@ -98,6 +99,7 @@ export default function App() {
       <Route path="/whiteboard" element={<Guarded><Whiteboard /></Guarded>} />
       <Route path="/resume" element={<Guarded><ResumeBuilder /></Guarded>} />
       <Route path="/project" element={<Guarded><Project /></Guarded>} />
+      <Route path="/concepts" element={<Guarded><Concepts /></Guarded>} />
 
       {/* Account / Admin — login required */}
       <Route path="/account" element={<Guarded><Account /></Guarded>} />
