@@ -11,8 +11,11 @@ const links = [
   { to: '/glossary', label: 'Glossary' },
   { to: '/interview', label: 'Interview' },
   { to: '/ai', label: 'AI + Databricks' },
-  { to: '/contact', label: 'Join Us' },
-  { to: '/faq', label: 'FAQ' },
+]
+
+const joinLinks = [
+  { to: '/contact', label: 'Join Us', hint: 'Batch info, mentor connect, and enrollment support' },
+  { to: '/faq', label: 'FAQ', hint: 'Common questions about training and support' },
 ]
 
 const toolLinks = [
@@ -129,6 +132,59 @@ function ToolsMenu({ open, setOpen, isAdmin = false, compact = false }) {
   )
 }
 
+function JoinUsMenu({ open, setOpen, compact = false }) {
+  const { pathname } = useLocation()
+  const menuRef = useMenuDismiss(open, setOpen)
+  const joinActive = joinLinks.some((j) => pathname === j.to)
+
+  return (
+    <div ref={menuRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className={`inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium transition ${
+          joinActive || open
+            ? 'bg-azure-500/10 text-azure-700 dark:text-azure-400'
+            : 'text-slate-600 hover:text-ink-900 dark:text-slate-300 dark:hover:text-white'
+        }`}
+      >
+        Join Us
+        <span className={`text-[10px] transition ${open ? 'rotate-180' : ''}`}>▾</span>
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          className={`absolute z-50 mt-2 min-w-[260px] overflow-hidden rounded-2xl border border-slate-200 bg-white p-1.5 shadow-xl dark:border-white/10 dark:bg-ink-900 ${
+            compact ? 'left-0' : 'right-0 xl:left-0 xl:right-auto'
+          }`}
+        >
+          {joinLinks.map((item) => (
+            <NavLink
+              key={item.to}
+              to={item.to}
+              role="menuitem"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) =>
+                `block rounded-xl px-3 py-2.5 transition ${
+                  isActive
+                    ? 'bg-azure-500/10 text-azure-700 dark:text-azure-400'
+                    : 'text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-white/5'
+                }`
+              }
+            >
+              <span className="block text-sm font-semibold">{item.label}</span>
+              <span className="mt-0.5 block text-xs text-slate-500 dark:text-slate-400">{item.hint}</span>
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 function ProfileMenu({ profile, signOut }) {
   const [open, setOpen] = useState(false)
   const menuRef = useMenuDismiss(open, setOpen)
@@ -206,7 +262,9 @@ export default function Navbar() {
   const { theme, toggle } = useTheme()
   const { user, profile, isAdmin, signOut } = useAuth()
   const [desktopToolsOpen, setDesktopToolsOpen] = useState(false)
+  const [desktopJoinOpen, setDesktopJoinOpen] = useState(false)
   const [mobileToolsOpen, setMobileToolsOpen] = useState(false)
+  const [mobileJoinOpen, setMobileJoinOpen] = useState(false)
 
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-ink-950/80">
@@ -225,6 +283,7 @@ export default function Navbar() {
             </NavLink>
           ))}
           <ToolsMenu open={desktopToolsOpen} setOpen={setDesktopToolsOpen} isAdmin={isAdmin} />
+          <JoinUsMenu open={desktopJoinOpen} setOpen={setDesktopJoinOpen} />
         </nav>
 
         <div className="flex items-center gap-2">
@@ -258,6 +317,7 @@ export default function Navbar() {
               </NavLink>
             ))}
             <ToolsMenu open={mobileToolsOpen} setOpen={setMobileToolsOpen} isAdmin={isAdmin} compact />
+            <JoinUsMenu open={mobileJoinOpen} setOpen={setMobileJoinOpen} compact />
           </nav>
         </div>
       </div>
