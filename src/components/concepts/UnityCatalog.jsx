@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const hierarchy = [
-  { level: 0, label: 'Metastore', icon: '🏛' },
-  { level: 1, label: 'Catalog (Business Unit)', icon: '📁' },
-  { level: 2, label: 'Schema (Department)', icon: '📂' },
-  { level: 3, label: 'Table (Dataset)', icon: '📋' },
-  { level: 4, label: 'Column Level Security', icon: '🔒' },
+  { level: 0, label: 'Metastore', icon: 'M' },
+  { level: 1, label: 'Catalog (Business Unit)', icon: 'C' },
+  { level: 2, label: 'Schema (Department)', icon: 'S' },
+  { level: 3, label: 'Table (Dataset)', icon: 'T' },
+  { level: 4, label: 'Column Level Security', icon: 'L' },
 ]
 
 const flowNodes = [
@@ -26,7 +26,7 @@ const benefits = [
   'Scalability',
 ]
 
-export default function UnityCatalog() {
+export default function UnityCatalog({ embedded = false } = {}) {
   const [activeLevel, setActiveLevel] = useState(0)
   const [flowStep, setFlowStep] = useState(0)
 
@@ -37,14 +37,14 @@ export default function UnityCatalog() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 10</p>
         <h3 className="font-display text-lg font-semibold">Unity Catalog — Governance & Security</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Centralized governance for all your data and AI assets in Databricks.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Hierarchy */}
@@ -96,7 +96,7 @@ export default function UnityCatalog() {
               )
             })}
           </div>
-          <p className="mt-2 text-center text-[10px] text-slate-400">Secure → Govern → Discover → Share</p>
+          <p className="mt-2 text-center text-[10px] text-slate-400">Secure / Govern / Discover / Share</p>
         </div>
 
         {/* Benefits */}

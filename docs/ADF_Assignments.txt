@@ -1,0 +1,115 @@
+================================================================================
+ADF ASSIGNMENTS — 7 SCENARIOS (NO WATERMARK)
+Student file pack: docs/ADF_Assignments/Assignment_01 ... Assignment_07
+================================================================================
+Activities: Copy, ForEach, If, Switch, Filter, Get Metadata, Lookup
+Expressions: concat, contains, endswith, startswith, formatDateTime, utcnow,
+dayOfWeek, addDays, and/or/if, item().name / lastModified / type, activity().output
+
+================================================================================
+ASSIGNMENT 1 — MEDIUM — Today’s CSV Landing
+Files: ADF_Assignments/Assignment_01/
+================================================================================
+Upload landing/sales/* to ADLS /landing/sales/
+Files: sales_orders_a.csv, sales_orders_b.csv, sales_meta.json, readme_vendor.txt
+Re-upload CSVs on lab day so lastModified = today.
+
+Build: Get Metadata → Filter (.csv + lastModified today) → ForEach → Copy
+Sink: /bronze/sales/yyyy/MM/dd/ using concat + formatDateTime
+Ignore json/txt.
+
+Stretch: If zero files, succeed with message.
+
+================================================================================
+ASSIGNMENT 2 — MEDIUM — Lookup file list → If exists → Copy
+(REPLACES watermark assignment)
+Files: ADF_Assignments/Assignment_02/
+================================================================================
+Upload:
+  control/files_to_process.csv → /control/
+  landing/orders/* → /landing/orders/
+
+Control lists: orders_west, orders_east, orders_south, orders_ghost
+Landing has west/east/south/north — NO ghost file
+north is NOT in control list
+
+Build: Lookup (all rows) → ForEach FileName → Get Metadata exists
+  → If exists Copy to /bronze/orders/yyyyMMdd/ else skip
+
+Expected: copy west/east/south; skip ghost; do NOT copy north
+
+Expressions:
+  concat('landing/orders/', item().FileName)
+  equals(activity('GetMeta').output.exists, true)
+  concat('bronze/orders/', formatDateTime(utcnow(),'yyyyMMdd'))
+
+Stretch: collect missing filenames in an array variable.
+
+================================================================================
+ASSIGNMENT 3 — MEDIUM–HARD — Switch by extension
+Files: ADF_Assignments/Assignment_03/
+================================================================================
+Upload landing/inbox/* → /landing/inbox/
+customers.csv → bronze/csv/
+events.json → bronze/json/
+audit_log.txt → bronze/txt/
+scratch.tmp → IGNORE
+temp_customers.csv → IGNORE (contains temp)
+mystery.dat → quarantine
+
+Build: Get Metadata → Filter → ForEach → Switch → Copy
+
+================================================================================
+ASSIGNMENT 4 — MEDIUM — Weekday vs Weekend
+Files: ADF_Assignments/Assignment_04/
+================================================================================
+Upload landing/finance/* → /landing/finance/
+Weekday: finance_gl_01.csv, finance_gl_02.csv only
+Weekend: heartbeat.csv if exists
+Never: random.csv on weekday filter
+
+Build: If(dayOfWeek) → weekday Filter+ForEach OR weekend GetMeta+If+Copy
+Stretch: ForceWeekday parameter
+
+================================================================================
+ASSIGNMENT 5 — HARD — Archive stale files
+Files: ADF_Assignments/Assignment_05/
+================================================================================
+Upload landing/raw/* → /landing/raw/
+Demo tip: RetentionDays=0 archives all; RetentionDays=365 archives none.
+Or upload file_old_* earlier / previous day.
+
+Build: Get Metadata → ForEach → If lastModified < cutoff → Copy archive → Delete
+Archive path: /archive/raw/yyyy/MM/ from file lastModified
+
+================================================================================
+ASSIGNMENT 6 — HARD — Metadata-driven multi-folder (NO watermark)
+Files: ADF_Assignments/Assignment_06/
+================================================================================
+Upload:
+  control/ingest_config.csv
+  landing/customers/, products/, returns/
+
+Config IsActive: customers=Y, products=Y, returns=N (skip)
+Skip customers_meta.json (pattern .csv only)
+
+Build: Lookup config → Filter active → ForEach folder → Get Metadata files
+  → match FilePattern → Copy to bronze/{SinkFolder}/yyyy/MM/dd/
+
+================================================================================
+ASSIGNMENT 7 — HARD — Pre-load validation gate
+Files: ADF_Assignments/Assignment_07/
+================================================================================
+Upload control/expected_config.csv + landing/orders/*
+BEFORE run: rename/copy orders_TEMPLATE.csv → orders_YYYYMMDD.csv (today)
+Also test: orders_EMPTY.csv (0 bytes), orders_20240101.csv (wrong day)
+
+Build: Lookup Prefix → concat ExpectedFileName → Get Metadata
+  (exists, size, itemType, lastModified) → If and(...) Copy else Fail
+
+================================================================================
+HOW TO SHARE WITH STUDENTS
+1. Zip folder: docs/ADF_Assignments  (or zip each Assignment_0X)
+2. Share ADF_Assignments.html or this TXT for questions
+3. Each Assignment_0X/README.txt has upload paths
+================================================================================

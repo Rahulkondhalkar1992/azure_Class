@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const pipeline = [
   { id: 'bronze', label: 'Bronze (Raw)', type: '@dlt.table', deps: [], color: 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30' },
@@ -12,7 +12,7 @@ const expectations = [
   { name: 'valid_date', rule: 'date <= current_date()', action: 'WARN' },
 ]
 
-export default function DeltaLiveTables() {
+export default function DeltaLiveTables({ embedded = false } = {}) {
   const [activeNode, setActiveNode] = useState(0)
   const [qualityStep, setQualityStep] = useState(0)
 
@@ -23,14 +23,14 @@ export default function DeltaLiveTables() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 9</p>
         <h3 className="font-display text-lg font-semibold">Delta Live Tables (DLT)</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Declarative pipelines — define what you want, DLT handles orchestration, monitoring, and quality.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Pipeline graph */}

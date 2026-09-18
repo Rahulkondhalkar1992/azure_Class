@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const files = ['sales_001.json', 'sales_002.json', 'sales_003.json', 'sales_004.csv']
 
-export default function AutoLoaderStreaming() {
+export default function AutoLoaderStreaming({ embedded = false } = {}) {
   const [detected, setDetected] = useState(0)
   const [ingested, setIngested] = useState(0)
 
@@ -28,14 +28,14 @@ export default function AutoLoaderStreaming() {
   ]
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 8</p>
         <h3 className="font-display text-lg font-semibold">Auto Loader & Structured Streaming</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Auto Loader detects new files in cloud storage and ingests incrementally into Delta.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Cloud Storage */}
@@ -50,7 +50,7 @@ export default function AutoLoaderStreaming() {
                   isNew ? 'ring-2 ring-azure-500 bg-azure-50 dark:bg-azure-500/10' :
                   isDetected ? 'opacity-50' : 'opacity-100'
                 }`}>
-                  <span>{isDetected ? '✓' : '📄'}</span>
+                  <span>{isDetected ? '✓' : '*'}</span>
                   <span className={isNew ? 'font-bold text-azure-600 dark:text-azure-300' : 'text-slate-600 dark:text-slate-300'}>
                     {f}
                   </span>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const rows = [
   { id: 1, name: 'Order-1001', ts: '2024-01-10', status: 'old' },
@@ -10,7 +10,7 @@ const newRows = [
   { id: 5, name: 'Order-1005', ts: '2024-01-12', status: 'new' },
 ]
 
-export default function IncrementalLoad() {
+export default function IncrementalLoad({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
   const [watermark, setWatermark] = useState('2024-01-10')
 
@@ -31,8 +31,8 @@ export default function IncrementalLoad() {
   const landed = step === 3
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
           Concept
         </p>
@@ -40,7 +40,7 @@ export default function IncrementalLoad() {
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Only fetch rows newer than the last watermark — skip what's already loaded.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Source table */}
@@ -117,8 +117,8 @@ export default function IncrementalLoad() {
             <span className={`h-2 w-2 rounded-full ${scanning ? 'animate-pulse bg-amber-400' : landed ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
             <span className="text-slate-500 dark:text-slate-400">
               {step === 0 && 'Idle — last load complete'}
-              {step === 1 && 'Scanning for rows after watermark…'}
-              {step === 2 && 'New rows found! Extracting…'}
+              {step === 1 && 'Scanning for rows after watermark...'}
+              {step === 2 && 'New rows found! Extracting...'}
               {step === 3 && 'Loaded. Watermark advanced to 2024-01-12'}
             </span>
           </div>

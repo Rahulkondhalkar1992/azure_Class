@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const commits = [
   { v: 0, action: 'CREATE TABLE', files: ['part-00000.parquet'], add: 1, remove: 0 },
@@ -9,13 +9,13 @@ const commits = [
 ]
 
 const benefits = [
-  { icon: '⏪', title: 'Time Travel', desc: 'Query any past version' },
-  { icon: '🔒', title: 'ACID Txn', desc: 'Atomic commits, no partial reads' },
-  { icon: '📋', title: 'Audit Log', desc: 'Full history of who changed what' },
-  { icon: '🔄', title: 'Rollback', desc: 'RESTORE TABLE to any version' },
+  { icon: 'T', title: 'Time Travel', desc: 'Query any past version' },
+  { icon: 'A', title: 'ACID Txn', desc: 'Atomic commits, no partial reads' },
+  { icon: 'L', title: 'Audit Log', desc: 'Full history of who changed what' },
+  { icon: 'R', title: 'Rollback', desc: 'RESTORE TABLE to any version' },
 ]
 
-export default function DeltaLogBenefits() {
+export default function DeltaLogBenefits({ embedded = false } = {}) {
   const [activeVersion, setActiveVersion] = useState(0)
 
   useEffect(() => {
@@ -26,14 +26,14 @@ export default function DeltaLogBenefits() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">Delta Log Benefits</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Every write creates a JSON commit in _delta_log/ — enabling time travel, ACID, and audit.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Delta log visualization */}
@@ -61,7 +61,7 @@ export default function DeltaLogBenefits() {
                       {c.action}
                     </p>
                     <p className="text-[10px] text-slate-400">
-                      +{c.add} add / -{c.remove} remove → {c.files[0]}
+                      +{c.add} add / -{c.remove} remove, file {c.files[0]}
                     </p>
                   </div>
                   {isActive && (
@@ -74,7 +74,7 @@ export default function DeltaLogBenefits() {
 
           {/* File tree */}
           <div className="mt-4 rounded-lg bg-white/80 p-3 font-mono text-[10px] leading-relaxed text-slate-500 dark:bg-white/5 dark:text-slate-400">
-            <p>📁 _delta_log/</p>
+            <p>*</p>
             {commits.filter((c) => c.v <= activeVersion).map((c) => (
               <p key={c.v} className={`pl-4 ${c.v === activeVersion ? 'font-bold text-azure-600 dark:text-azure-300' : ''}`}>
                 {String(c.v).padStart(5, '0')}.json

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const events = [
   { id: 'e1', user: 'u42', action: 'page_view', page: '/home' },
@@ -9,7 +9,7 @@ const events = [
   { id: 'e6', user: 'u42', action: 'page_view', page: '/thanks' },
 ]
 
-export default function StreamingDataFlow() {
+export default function StreamingDataFlow({ embedded = false } = {}) {
   const [cursor, setCursor] = useState(0)
   const [processed, setProcessed] = useState([])
 
@@ -31,14 +31,14 @@ export default function StreamingDataFlow() {
   const inFlight = cursor > 0 && cursor <= events.length ? events[cursor - 1] : null
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">Streaming Data Flow</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Continuous ingestion — events arrive, get processed in micro-batches, and land in Delta.
         </p>
-      </div>
+      </div>)}
 
       <div className="relative overflow-x-auto">
         <svg viewBox="0 0 760 180" className="block h-auto min-w-[560px] w-full">
@@ -83,7 +83,7 @@ export default function StreamingDataFlow() {
                     <animate attributeName="y" values="98;70;84;76" dur="0.9s" begin={`${j * 0.12}s`} repeatCount="indefinite" />
                   </rect>
                 )}
-                <text x={bx + 11} y="126" textAnchor="middle" className="fill-slate-400 text-[8px] dark:fill-slate-500">μ{j}</text>
+                <text x={bx + 11} y="126" textAnchor="middle" className="fill-slate-400 text-[8px] dark:fill-slate-500">Î¼{j}</text>
               </g>
             )
           })}

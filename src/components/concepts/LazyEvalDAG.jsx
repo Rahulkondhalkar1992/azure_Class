@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const codeLines = [
   { code: '# Transformations (Lazy)', type: 'comment' },
@@ -19,7 +19,7 @@ const dagNodes = [
   { id: 'output', label: 'Output', x: 60, y: 210 },
 ]
 
-export default function LazyEvalDAG() {
+export default function LazyEvalDAG({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
@@ -34,14 +34,14 @@ export default function LazyEvalDAG() {
   const done = step >= 9
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 5</p>
         <h3 className="font-display text-lg font-semibold">Lazy Evaluation & DAG</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Spark builds an optimized DAG from transformations. Nothing executes until an Action is called.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Code */}
@@ -115,10 +115,10 @@ export default function LazyEvalDAG() {
           <div className="flex items-center gap-2 text-xs">
             <span className={`h-2 w-2 rounded-full ${done ? 'bg-emerald-500' : executing ? 'animate-pulse bg-azure-500' : dagBuilding ? 'animate-pulse bg-amber-400' : 'bg-slate-300 dark:bg-slate-600'}`} />
             <span className="text-slate-500 dark:text-slate-400">
-              {step < 1 && 'Reading source data…'}
+              {step < 1 && 'Reading source data...'}
               {dagBuilding && 'Building DAG — no execution yet'}
-              {dagComplete && !executing && 'DAG ready. Waiting for Action…'}
-              {executing && !done && 'Action called! Executing stages…'}
+              {dagComplete && !executing && 'DAG ready. Waiting for Action...'}
+              {executing && !done && 'Action called! Executing stages...'}
               {done && 'Execution complete ✓'}
             </span>
           </div>

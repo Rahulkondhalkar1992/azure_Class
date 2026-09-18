@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const sourceLog = [
   { lsn: 101, op: 'I', id: 1, name: 'Alice', city: 'Mumbai' },
@@ -15,7 +15,7 @@ const opColor = {
   D: 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300',
 }
 
-export default function CDCAnimation() {
+export default function CDCAnimation({ embedded = false } = {}) {
   const [cursor, setCursor] = useState(0)
 
   useEffect(() => {
@@ -38,14 +38,14 @@ export default function CDCAnimation() {
   const currentEvent = cursor > 0 && cursor <= sourceLog.length ? sourceLog[cursor - 1] : null
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">Change Data Capture (CDC)</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Capture INSERT, UPDATE, DELETE from the transaction log — replay into the target.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Change log */}
@@ -92,7 +92,7 @@ export default function CDCAnimation() {
             <span className={`h-2 w-2 rounded-full ${currentEvent ? 'animate-pulse bg-azure-500' : cursor > sourceLog.length ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
             <span className="text-slate-500 dark:text-slate-400">
               {currentEvent ? `Applying ${opLabel[currentEvent.op]} id=${currentEvent.id}` :
-               cursor > sourceLog.length ? 'All changes applied ✓' : 'Waiting for events…'}
+               cursor > sourceLog.length ? 'All changes applied ✓' : 'Waiting for events...'}
             </span>
           </div>
         </div>

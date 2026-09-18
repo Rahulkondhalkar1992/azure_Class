@@ -1,0 +1,4 @@
+﻿OrderID,CustomerID,Product,Amount,OrderDate
+2001,C010,Headset,3500,2024-09-03
+2002,C011,Webcam,4500,2024-09-03
+2003,C012,Dock,8900,2024-09-04

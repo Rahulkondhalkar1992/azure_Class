@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
-export default function OptimizeVacuumZOrder() {
+export default function OptimizeVacuumZOrder({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
@@ -13,14 +13,14 @@ export default function OptimizeVacuumZOrder() {
   const zorderPhase = step >= 8
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 7</p>
         <h3 className="font-display text-lg font-semibold">OPTIMIZE, VACUUM & Z-ORDER</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Keep Delta tables clean, small, and super fast.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* OPTIMIZE */}
@@ -38,7 +38,7 @@ export default function OptimizeVacuumZOrder() {
                 ))}
               </div>
             </div>
-            <span className="text-lg text-slate-300">→</span>
+            <span className="text-lg text-slate-300">to</span>
             <div className="text-center">
               <p className="text-[9px] font-bold uppercase text-slate-400">After</p>
               <div className="mt-1 flex gap-1">
@@ -70,7 +70,7 @@ export default function OptimizeVacuumZOrder() {
                   isOld && vacuumPhase ? 'bg-rose-50 text-rose-600 dark:bg-rose-500/10 dark:text-rose-300' :
                   'text-slate-500'
                 }`}>
-                  <span>{isOld ? '🗑' : '📄'}</span>
+                  <span>{isOld ? '*' : '*'}</span>
                   <span>{f}.parquet</span>
                   {removed && <span className="text-rose-500">deleted</span>}
                 </div>
@@ -78,7 +78,7 @@ export default function OptimizeVacuumZOrder() {
             })}
           </div>
           <code className="mt-3 block text-[10px] text-slate-500">VACUUM my_table RETAIN 168 HOURS;</code>
-          <p className="mt-1 text-[9px] text-rose-500">⚠ Do not run with 0 hours retention in production!</p>
+          <p className="mt-1 text-[9px] text-rose-500">âš  Do not run with 0 hours retention in production!</p>
         </div>
 
         {/* Z-ORDER */}
@@ -96,7 +96,7 @@ export default function OptimizeVacuumZOrder() {
                 ))}
               </div>
             </div>
-            <span className="text-lg text-slate-300">→</span>
+            <span className="text-lg text-slate-300">to</span>
             <div className="text-center">
               <p className="text-[9px] font-bold uppercase text-slate-400">Z-Ordered</p>
               <div className="mt-1 grid grid-cols-4 gap-0.5">
@@ -118,9 +118,9 @@ export default function OptimizeVacuumZOrder() {
       <div className="mt-4 flex items-center gap-2 text-xs">
         <span className={`h-2 w-2 rounded-full ${optimizePhase ? 'animate-pulse bg-azure-500' : vacuumPhase ? 'animate-pulse bg-rose-500' : 'animate-pulse bg-violet-500'}`} />
         <span className="text-slate-500 dark:text-slate-400">
-          {optimizePhase && 'OPTIMIZE: compacting small files…'}
-          {vacuumPhase && 'VACUUM: cleaning old files after retention…'}
-          {zorderPhase && 'Z-ORDER: co-locating data for faster queries…'}
+          {optimizePhase && 'OPTIMIZE: compacting small files...'}
+          {vacuumPhase && 'VACUUM: cleaning old files after retention...'}
+          {zorderPhase && 'Z-ORDER: co-locating data for faster queries...'}
         </span>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const target = [
   { id: 1, name: 'Alice', city: 'Mumbai', ver: 'v1' },
@@ -10,7 +10,7 @@ const incoming = [
   { id: 4, name: 'Dave', city: 'Chennai', action: 'INSERT' },
 ]
 
-export default function MergeInsert() {
+export default function MergeInsert({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
@@ -33,14 +33,14 @@ export default function MergeInsert() {
   }
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">MERGE INTO vs INSERT INTO</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           MERGE matches on key — updates existing, inserts new. INSERT only appends.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Incoming */}
@@ -105,10 +105,10 @@ WHEN NOT MATCHED THEN
               step <= 1 ? 'animate-pulse bg-azure-500' : step === 2 ? 'bg-amber-500' : 'bg-emerald-500'
             }`} />
             <span className="text-slate-500 dark:text-slate-400">
-              {step === 0 && 'Preparing MERGE…'}
+              {step === 0 && 'Preparing MERGE...'}
               {step === 1 && 'Matching on t.id = s.id'}
-              {step === 2 && 'id=2 MATCHED → UPDATE'}
-              {step === 3 && 'id=4 NOT MATCHED → INSERT'}
+              {step === 2 && 'id=2 MATCHED > UPDATE'}
+              {step === 3 && 'id=4 NOT MATCHED > INSERT'}
               {step === 4 && 'MERGE complete ✓'}
             </span>
           </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const joinTypes = [
   { name: 'Inner', desc: 'Matching rows from both sides', left: [1,2,3], right: [2,3,4], result: [2,3] },
@@ -19,7 +19,7 @@ const fixes = [
   { name: 'Repartition', desc: 'Repartition on join key before join' },
 ]
 
-export default function SparkJoinsSkew() {
+export default function SparkJoinsSkew({ embedded = false } = {}) {
   const [activeJoin, setActiveJoin] = useState(0)
   const [showFix, setShowFix] = useState(false)
 
@@ -32,14 +32,14 @@ export default function SparkJoinsSkew() {
   const join = joinTypes[activeJoin]
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 11</p>
         <h3 className="font-display text-lg font-semibold">Spark Joins & Data Skew</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Join types, skew detection, and practical fixes for production pipelines.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-3">
         {/* Join types */}
@@ -66,7 +66,7 @@ export default function SparkJoinsSkew() {
                 ))}
               </div>
             </div>
-            <span className="text-slate-300">⋈</span>
+            <span className="text-slate-300">â‹ˆ</span>
             <div>
               <p className="text-[9px] font-bold text-slate-400">Right</p>
               <div className="mt-1 flex gap-1">

@@ -1,0 +1,5 @@
+﻿OrderID,CustomerID,Product,Amount,OrderDate
+1001,C001,Laptop,75000,2024-09-01
+1002,C002,Mouse,1200,2024-09-01
+1003,C003,Keyboard,2500,2024-09-02
+1004,C001,Monitor,18000,2024-09-02

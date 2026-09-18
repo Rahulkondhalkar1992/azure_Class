@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const acidProps = [
   { letter: 'A', title: 'Atomicity', desc: 'All or nothing. Either all operations succeed or none.', color: 'text-rose-600 dark:text-rose-400 bg-rose-100 dark:bg-rose-500/20' },
@@ -14,7 +14,7 @@ const versions = [
   { v: 3, time: '01:00 PM', action: 'DELETE 30 rows', rows: 1170 },
 ]
 
-export default function DeltaACID() {
+export default function DeltaACID({ embedded = false } = {}) {
   const [activeAcid, setActiveAcid] = useState(0)
   const [activeVersion, setActiveVersion] = useState(0)
 
@@ -25,14 +25,14 @@ export default function DeltaACID() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 6</p>
         <h3 className="font-display text-lg font-semibold">Delta Lake — ACID Transactions & Time Travel</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Delta Lake adds ACID guarantees and version history to your data lake.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* ACID */}
@@ -65,7 +65,7 @@ export default function DeltaACID() {
                     }`}>v{ver.v}</span>
                     <div className="flex-1 min-w-0">
                       <p className={`font-semibold ${active ? 'text-azure-700 dark:text-azure-300' : 'text-slate-500'}`}>{ver.action}</p>
-                      <p className="text-[10px] text-slate-400">{ver.time} · {ver.rows} rows</p>
+                      <p className="text-[10px] text-slate-400">{ver.time} / {ver.rows} rows</p>
                     </div>
                   </div>
                 )

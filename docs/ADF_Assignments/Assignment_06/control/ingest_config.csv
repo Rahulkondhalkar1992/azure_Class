@@ -1,0 +1,4 @@
+﻿SourceFolder,FilePattern,SinkFolder,IsActive
+landing/customers,.csv,customers,Y
+landing/products,.csv,products,Y
+landing/returns,.csv,returns,N

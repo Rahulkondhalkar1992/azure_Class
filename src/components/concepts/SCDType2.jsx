@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const initial = [
   { id: 1, name: 'Alice', city: 'Mumbai', start: '2024-01-01', end: '9999-12-31', current: true },
@@ -7,7 +7,7 @@ const initial = [
 
 const changeEvent = { id: 1, name: 'Alice', city: 'Pune', date: '2024-03-15' }
 
-export default function SCDType2() {
+export default function SCDType2({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
@@ -27,14 +27,14 @@ export default function SCDType2() {
   const rows = getRows()
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">SCD Type 2</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Keep full history — expire old row, insert new row with updated values.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Change event */}
@@ -45,7 +45,7 @@ export default function SCDType2() {
             <p className="mb-2 text-xs font-bold uppercase tracking-wide text-amber-600 dark:text-amber-400">Incoming Change</p>
             <div className="font-mono text-sm text-slate-700 dark:text-slate-200">
               <p>id=<span className="font-bold">1</span> (Alice)</p>
-              <p>city: Mumbai → <span className="font-bold text-amber-600 dark:text-amber-400">Pune</span></p>
+              <p>city: Mumbai to <span className="font-bold text-amber-600 dark:text-amber-400">Pune</span></p>
               <p className="text-xs text-slate-400">effective: {changeEvent.date}</p>
             </div>
           </div>

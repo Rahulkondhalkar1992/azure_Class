@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADF Assignments — 7 Scenarios (No Watermark)</title>
+  <style>
+    :root { --ink:#0f172a; --muted:#475569; --line:#e2e8f0; --azure:#0078d4; --bg:#f8fafc; --amber:#b45309; --rose:#be123c; --ok:#047857; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",system-ui,sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
+    .wrap { max-width:920px; margin:0 auto; padding:32px 20px 64px; }
+    header { background:linear-gradient(135deg,#0b5cab,#0078d4 55%,#5b9bd5); color:#fff; border-radius:16px; padding:28px; margin-bottom:24px; }
+    header h1 { margin:8px 0 10px; font-size:1.75rem; }
+    .badge { display:inline-block; font-size:.72rem; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:3px 10px; border-radius:999px; margin-right:6px; }
+    .badge-med { background:#fef3c7; color:var(--amber); }
+    .badge-hard { background:#ffe4e6; color:var(--rose); }
+    .badge-num { background:#e0f2fe; color:#0369a1; }
+    .toc, .assignment { background:#fff; border:1px solid var(--line); border-radius:14px; padding:20px 24px; margin-bottom:22px; }
+    .scenario { background:#f1f5f9; border-left:4px solid var(--azure); padding:12px 14px; border-radius:0 8px 8px 0; color:var(--muted); }
+    .section { margin-top:16px; }
+    .section h3 { margin:0 0 8px; font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; color:#64748b; }
+    .chips span { display:inline-block; background:#e0f2fe; color:#075985; border-radius:999px; padding:4px 10px; font-size:.8rem; font-weight:600; margin:0 6px 6px 0; }
+    code { font-family:Consolas,monospace; background:#f1f5f9; padding:1px 6px; border-radius:4px; font-size:.88em; }
+    .files { background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px; padding:12px 14px; font-size:.92rem; }
+    .hint { margin-top:8px; background:#fffbeb; border:1px solid #fde68a; color:#92400e; border-radius:8px; padding:8px 10px; font-size:.9rem; }
+    .challenge { border:1px solid var(--line); border-radius:10px; padding:12px 14px; margin-top:8px; }
+    ul,ol { margin:6px 0 0; padding-left:20px; }
+    li { margin:4px 0; color:var(--muted); }
+    .stretch { border:1px dashed #94a3b8; background:#f8fafc; border-radius:10px; padding:12px 14px; color:var(--muted); }
+    a { color:var(--azure); }
+    @media print { body{background:#fff;} .assignment{break-inside:avoid;} }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="badge badge-num">Azure Data Factory</div>
+    <h1>7 Scenario-Based Assignments</h1>
+    <p>Medium → Hard · <strong>No watermark topics</strong></p>
+    <p style="margin-top:10px;opacity:.95;font-size:.92rem">
+      Activities: Copy · ForEach · If · Switch · Filter · Get Metadata · Lookup<br/>
+      Expressions: concat, contains, endswith, startswith, formatDateTime, utcnow, dayOfWeek, addDays, and/or/if, item().name / lastModified / type, activity().output<br/>
+      Student files: <code>docs/ADF_Assignments/Assignment_01</code> … <code>Assignment_07</code>
+    </p>
+  </header>
+
+  <nav class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#a1">Today’s CSV Landing</a></li>
+      <li><a href="#a2">Lookup file list → If exists → Copy</a></li>
+      <li><a href="#a3">Switch by extension</a></li>
+      <li><a href="#a4">Weekday vs Weekend</a></li>
+      <li><a href="#a5">Archive stale files</a></li>
+      <li><a href="#a6">Metadata-driven multi-folder ingest</a></li>
+      <li><a href="#a7">Pre-load validation gate</a></li>
+    </ol>
+  </nav>
+
+  <article class="assignment" id="a1">
+    <div><span class="badge badge-num">Assignment 1</span><span class="badge badge-med">Medium</span></div>
+    <h2>Today’s CSV Landing — Filter by name + lastModified</h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Vendor drops files in <code>/landing/sales/</code>. Copy ONLY <code>.csv</code> files modified TODAY into <code>/bronze/sales/yyyy/MM/dd/</code>.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>ADF_Assignments/Assignment_01/</code><br/>
+      Upload <code>landing/sales/*</code> → ADLS <code>/landing/sales/</code><br/>
+      Includes: <code>sales_orders_a.csv</code>, <code>sales_orders_b.csv</code>, <code>sales_meta.json</code>, <code>readme_vendor.txt</code><br/>
+      Re-upload CSVs on lab day so <code>lastModified</code> = today.</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Get Metadata</span><span>Filter</span><span>ForEach</span><span>Copy</span></div></div>
+    <div class="section"><h3>Build</h3><ol>
+      <li>Get Metadata Child Items on landing/sales</li>
+      <li>Filter: File + endswith .csv + lastModified date = today</li>
+      <li>ForEach → Copy; sink with concat yyyy/MM/dd; source = @item().name</li>
+    </ol></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">1. Filter only CSV modified today<div class="hint">endswith + equals(formatDateTime(lastModified), formatDateTime(utcnow()))</div></div>
+      <div class="challenge">2. Sink folder with concat + formatDateTime<div class="hint">concat('bronze/sales/', formatDateTime(utcnow(),'yyyy'), '/', ...)</div></div>
+    </div>
+    <div class="section"><h3>Acceptance</h3><ul><li>JSON/TXT ignored; only today’s CSVs in dated bronze folder</li></ul></div>
+    <div class="section"><h3>Stretch</h3><div class="stretch">If zero files, succeed with message (do not fail).</div></div>
+  </article>
+
+  <article class="assignment" id="a2">
+    <div><span class="badge badge-num">Assignment 2</span><span class="badge badge-med">Medium</span></div>
+    <h2>Lookup file list → If exists → Copy <em>(replaces watermark)</em></h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Control CSV lists which order files to load. Lookup the list, ForEach FileName, Get Metadata exists, If exists → Copy to <code>/bronze/orders/yyyyMMdd/</code>, else skip. Do not copy files that are in landing but not in the control list.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>ADF_Assignments/Assignment_02/</code><br/>
+      <code>control/files_to_process.csv</code> → <code>/control/</code><br/>
+      <code>landing/orders/*.csv</code> → <code>/landing/orders/</code><br/>
+      Control lists west, east, south, <strong>ghost</strong> (missing on purpose).<br/>
+      Landing also has <code>orders_north.csv</code> (NOT in list → must not copy).</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Lookup</span><span>ForEach</span><span>Get Metadata</span><span>If</span><span>Copy</span></div></div>
+    <div class="section"><h3>Build</h3><ol>
+      <li>Lookup files_to_process.csv (all rows)</li>
+      <li>ForEach → Get Metadata exists on landing/orders/@{item().FileName}</li>
+      <li>If exists → Copy; else skip</li>
+      <li>Sink: concat('bronze/orders/', formatDateTime(utcnow(),'yyyyMMdd'))</li>
+    </ol></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">1. Dynamic path from item().FileName<div class="hint">concat('landing/orders/', item().FileName)</div></div>
+      <div class="challenge">2. If using exists<div class="hint">@equals(activity('GetMeta').output.exists, true)</div></div>
+    </div>
+    <div class="section"><h3>Acceptance</h3><ul><li>west/east/south copied; ghost skipped; north not copied</li></ul></div>
+    <div class="section"><h3>Stretch</h3><div class="stretch">Collect missing names into an array variable.</div></div>
+  </article>
+
+  <article class="assignment" id="a3">
+    <div><span class="badge badge-num">Assignment 3</span><span class="badge badge-med">Medium–Hard</span></div>
+    <h2>Route files by extension with Switch</h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Route <code>.csv</code> / <code>.json</code> / <code>.txt</code> to matching bronze folders. Ignore <code>.tmp</code> and names containing <code>temp</code>. Unknown → quarantine.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>Assignment_03/landing/inbox/</code><br/>
+      customers.csv, events.json, audit_log.txt, scratch.tmp, temp_customers.csv, mystery.dat</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Get Metadata</span><span>Filter</span><span>ForEach</span><span>Switch</span><span>Copy</span></div></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">Switch on nested if + endswith + toLower<div class="hint">if(endswith(toLower(item().name),'.csv'),'csv', if(...,'json', if(...,'txt','other')))</div></div>
+      <div class="challenge">Filter out tmp and temp<div class="hint">not(endswith(...,'.tmp')) and not(contains(...,'temp'))</div></div>
+    </div>
+  </article>
+
+  <article class="assignment" id="a4">
+    <div><span class="badge badge-num">Assignment 4</span><span class="badge badge-med">Medium</span></div>
+    <h2>Weekday vs Weekend (If + dayOfWeek)</h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Weekday: process <code>finance_*.csv</code>. Weekend: only <code>heartbeat.csv</code> if exists.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>Assignment_04/landing/finance/</code><br/>
+      finance_gl_01.csv, finance_gl_02.csv, heartbeat.csv, random.csv</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>If</span><span>Get Metadata</span><span>Filter</span><span>ForEach</span><span>Copy</span></div></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">Weekend check<div class="hint">@or(equals(dayOfWeek(utcnow()),0), equals(dayOfWeek(utcnow()),6))</div></div>
+      <div class="challenge">Filter finance_*.csv<div class="hint">and(startswith(item().name,'finance_'), endswith(item().name,'.csv'))</div></div>
+    </div>
+    <div class="section"><h3>Stretch</h3><div class="stretch">Parameter ForceWeekday for testing.</div></div>
+  </article>
+
+  <article class="assignment" id="a5">
+    <div><span class="badge badge-num">Assignment 5</span><span class="badge badge-hard">Hard</span></div>
+    <h2>Archive stale files (lastModified)</h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Archive files older than RetentionDays to <code>/archive/raw/yyyy/MM/</code> then Delete from landing.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>Assignment_05/landing/raw/</code><br/>
+      file_new_*.csv, file_old_*.csv — see README for RetentionDays demo tips (try 0 then 365).</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Get Metadata</span><span>Filter</span><span>ForEach</span><span>If</span><span>Copy</span><span>Delete</span></div></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">Cutoff date<div class="hint">addDays(utcnow(), mul(pipeline().parameters.RetentionDays, -1))</div></div>
+      <div class="challenge">Archive path from lastModified<div class="hint">concat('archive/raw/', formatDateTime(item().lastModified,'yyyy'), '/', ...)</div></div>
+    </div>
+  </article>
+
+  <article class="assignment" id="a6">
+    <div><span class="badge badge-num">Assignment 6</span><span class="badge badge-hard">Hard</span></div>
+    <h2>Metadata-driven multi-folder ingest <em>(no watermark)</em></h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Config CSV lists SourceFolder, FilePattern, SinkFolder, IsActive. Lookup → Filter active → ForEach folder → Get Metadata files → match pattern → Copy to bronze/{SinkFolder}/yyyy/MM/dd/.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>Assignment_06/</code><br/>
+      control/ingest_config.csv<br/>
+      landing/customers/, landing/products/, landing/returns/ (IsActive=N → skip)</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Lookup</span><span>Filter</span><span>ForEach</span><span>Get Metadata</span><span>Copy</span></div></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">Filter active rows<div class="hint">equals(toUpper(item().IsActive),'Y')</div></div>
+      <div class="challenge">Sink path from item().SinkFolder<div class="hint">concat('bronze/', item().SinkFolder, '/', formatDateTime(utcnow(),'yyyy'), '/', ...)</div></div>
+    </div>
+  </article>
+
+  <article class="assignment" id="a7">
+    <div><span class="badge badge-num">Assignment 7</span><span class="badge badge-hard">Hard</span></div>
+    <h2>Pre-load validation gate</h2>
+    <div class="section"><h3>Scenario</h3><div class="scenario">Build expected <code>orders_YYYYMMDD.csv</code>, Get Metadata (exists, size, itemType, lastModified). If all pass → Copy; else Fail with concat reason.</div></div>
+    <div class="section"><h3>Student files</h3><div class="files"><strong>Folder:</strong> <code>Assignment_07/</code><br/>
+      control/expected_config.csv (Prefix=orders_)<br/>
+      landing/orders/orders_TEMPLATE.csv → <strong>rename to today’s orders_yyyyMMdd.csv</strong><br/>
+      orders_EMPTY.csv (0 bytes), orders_20240101.csv (wrong day)</div></div>
+    <div class="section"><h3>Activities</h3><div class="chips"><span>Lookup</span><span>Get Metadata</span><span>If</span><span>Copy</span><span>Fail</span></div></div>
+    <div class="section"><h3>Expression challenges</h3>
+      <div class="challenge">ExpectedFileName<div class="hint">concat(Prefix, formatDateTime(utcnow(),'yyyyMMdd'), '.csv')</div></div>
+      <div class="challenge">and(...) validation + Fail message with string()</div>
+    </div>
+  </article>
+
+  <p style="text-align:center;color:#94a3b8;font-size:.85rem">AZ Learning · Give students each Assignment_0X folder + this HTML/TXT</p>
+</div>
+</body>
+</html>

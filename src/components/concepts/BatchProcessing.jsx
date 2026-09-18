@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const batches = [
   { id: 'B1', rows: 1200, files: ['sales_01.parquet', 'sales_02.parquet'] },
@@ -6,9 +6,9 @@ const batches = [
   { id: 'B3', rows: 1540, files: ['sales_04.parquet', 'sales_05.parquet', 'sales_06.parquet'] },
 ]
 
-export default function BatchProcessing() {
+export default function BatchProcessing({ embedded = false } = {}) {
   const [active, setActive] = useState(0)
-  const [phase, setPhase] = useState('queue') // queue → process → done
+  const [phase, setPhase] = useState('queue') // queue -> process -> done
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -23,14 +23,14 @@ export default function BatchProcessing() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Concept</p>
         <h3 className="font-display text-lg font-semibold">Batch Processing</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Accumulate data, process in scheduled windows — high throughput, bounded latency.
         </p>
-      </div>
+      </div>)}
 
       <div className="relative overflow-x-auto">
         <svg viewBox="0 0 700 160" className="block h-auto min-w-[500px] w-full">
@@ -54,7 +54,7 @@ export default function BatchProcessing() {
                   {b.id}
                 </text>
                 <text x="58" y={y + 18} className="fill-slate-400 text-[10px] dark:fill-slate-500">
-                  {b.rows} rows · {b.files.length} files
+                  {b.rows} rows / {b.files.length} files
                 </text>
               </g>
             )
@@ -103,7 +103,7 @@ export default function BatchProcessing() {
           <rect x="550" y="50" width="130" height="60" rx="12" className="fill-slate-50 stroke-slate-200 dark:fill-[#12182a] dark:stroke-white/10" />
           <text x="615" y="46" textAnchor="middle" className="fill-slate-500 text-[10px] font-semibold uppercase dark:fill-slate-400">Delta Table</text>
           <text x="615" y="78" textAnchor="middle" className="fill-emerald-600 text-[12px] font-bold dark:fill-emerald-400">
-            {phase === 'done' ? `${batches[active].rows} rows ✓` : '…'}
+            {phase === 'done' ? `${batches[active].rows} rows ✓` : '...'}
           </text>
           <text x="615" y="97" textAnchor="middle" className="fill-slate-400 text-[10px] dark:fill-slate-500">
             {phase === 'done' ? 'committed' : 'waiting'}
@@ -115,7 +115,7 @@ export default function BatchProcessing() {
         <span className={`h-2 w-2 rounded-full ${phase === 'process' ? 'animate-pulse bg-azure-500' : phase === 'done' ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-600'}`} />
         <span className="text-slate-500 dark:text-slate-400">
           {phase === 'queue' && `Batch ${batches[active].id} queued — waiting for schedule`}
-          {phase === 'process' && `Processing ${batches[active].id} across 4 executors…`}
+          {phase === 'process' && `Processing ${batches[active].id} across 4 executors...`}
           {phase === 'done' && `Batch ${batches[active].id} committed to Delta — ${batches[active].rows} rows`}
         </span>
       </div>

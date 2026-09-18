@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ADF & Cloud Fundamentals — Student Exam</title>
+  <style>
+    :root {
+      --azure: #0078d4;
+      --azure-dark: #0b5cab;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --bg: #f1f5f9;
+      --ok: #059669;
+      --fail: #dc2626;
+      --warn: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+    .shell { max-width: 820px; margin: 0 auto; padding: 24px 16px 48px; }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+    }
+    h1 { margin: 0 0 8px; font-size: 1.55rem; }
+    .sub { color: var(--muted); margin: 0 0 20px; font-size: 0.95rem; }
+    label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-size: 1rem;
+      outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--azure); box-shadow: 0 0 0 3px rgba(0,120,212,.15); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+    .btn-primary { background: var(--azure); color: #fff; }
+    .btn-primary:hover { background: var(--azure-dark); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+    .hidden { display: none !important; }
+    .meta-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .pill {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #075985;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .q {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      background: #fff;
+    }
+    .q h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+      font-weight: 650;
+    }
+    .q .num {
+      color: var(--azure);
+      font-weight: 800;
+      margin-right: 6px;
+    }
+    .opt {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: .12s ease;
+    }
+    .opt:hover { border-color: #93c5fd; background: #f8fbff; }
+    .opt input { margin-top: 3px; accent-color: var(--azure); }
+    .opt.correct-mark {
+      border-color: #6ee7b7;
+      background: #ecfdf5;
+    }
+    .opt.wrong-mark {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+      position: sticky;
+      bottom: 12px;
+      background: rgba(241,245,249,.92);
+      backdrop-filter: blur(6px);
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+    }
+    .result-hero {
+      text-align: center;
+      padding: 10px 8px 6px;
+    }
+    .score-big {
+      font-size: 2.6rem;
+      font-weight: 800;
+      margin: 8px 0;
+    }
+    .pass { color: var(--ok); }
+    .fail { color: var(--fail); }
+    .badge-result {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      font-size: 0.85rem;
+    }
+    .badge-pass { background: #d1fae5; color: #065f46; }
+    .badge-fail { background: #fee2e2; color: #991b1b; }
+    .review-note { font-size: 0.85rem; color: var(--muted); margin-top: 4px; }
+    footer { text-align: center; color: #94a3b8; font-size: 0.8rem; margin-top: 24px; }
+    .warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; border-radius: 10px; padding: 10px 12px; font-size: 0.88rem; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <!-- START SCREEN -->
+    <section id="startScreen" class="card">
+      <span class="pill">AZ Learning · Exam</span>
+      <h1>Cloud & Azure Data Factory Fundamentals</h1>
+      <p class="sub">Multiple-choice test · 25 questions · Passing score <strong>75%</strong> · One attempt per session</p>
+      <div class="warn">
+        Read carefully — some options look similar on purpose. Select the best answer for each question, then submit.
+      </div>
+      <label for="studentName">Student full name</label>
+      <input id="studentName" type="text" placeholder="Enter your name to start" autocomplete="name" />
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="startBtn" class="btn btn-primary" type="button">Start Exam</button>
+      </div>
+    </section>
+
+    <!-- EXAM SCREEN -->
+    <section id="examScreen" class="hidden">
+      <div class="meta-bar">
+        <div>
+          <strong id="nameLabel"></strong>
+          <span id="progressLabel" style="margin-left:10px;"></span>
+        </div>
+        <span class="pill">Pass mark: 75%</span>
+      </div>
+      <div id="questionList"></div>
+      <div class="actions">
+        <button id="submitBtn" class="btn btn-primary" type="button">Submit Answers</button>
+        <button id="clearBtn" class="btn btn-ghost" type="button">Clear selections</button>
+      </div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="resultScreen" class="card hidden">
+      <div class="result-hero">
+        <span class="pill">Result</span>
+        <h1 id="resultName"></h1>
+        <div id="scoreBig" class="score-big"></div>
+        <div id="passBadge" class="badge-result"></div>
+        <p id="resultDetail" class="sub" style="margin-top:14px;"></p>
+      </div>
+      <div id="reviewList" style="margin-top:18px;"></div>
+      <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap;">
+        <button id="retryBtn" class="btn btn-ghost" type="button">Retake with new shuffle</button>
+      </div>
+    </section>
+
+    <footer>AZ Learning · Share this HTML file with students · Opens offline in any browser</footer>
+  </div>
+
+<script>
+/**
+ * Bank: correctIndex is BEFORE shuffle of options.
+ * Each question gets option order shuffled at exam start; questions also shuffled.
+ */
+const QUESTION_BANK = [
+  {
+    q: "What is cloud computing?",
+    options: [
+      "Delivery of computing services (servers, storage, databases, networking, software, analytics) over the internet",
+      "Only storing files on a local hard disk inside an office",
+      "Installing antivirus software on every employee laptop",
+      "A type of cable used to connect on-premises servers"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which of the following is NOT typically listed as a benefit of cloud computing?",
+    options: [
+      "Mandatory purchase of physical servers for every project",
+      "Scalability and remote accessibility",
+      "Automatic backup and software updates",
+      "Disaster recovery and geo-redundant storage options"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which set correctly lists the types of clouds?",
+    options: [
+      "Public, Private, Hybrid, Community",
+      "Hot, Cool, Cold, Archive",
+      "LRS, GRS, ZRS, GZRS",
+      "IaaS, PaaS, SaaS only"
+    ],
+    correct: 0
+  },
+  {
+    q: "A cloud used only inside one organization is called:",
+    options: [
+      "Private cloud",
+      "Public cloud",
+      "Community cloud",
+      "Hybrid cloud"
+    ],
+    correct: 0
+  },
+  {
+    q: "Gmail and Google Drive are examples of which cloud service model?",
+    options: [
+      "SaaS (Software as a Service)",
+      "IaaS (Infrastructure as a Service)",
+      "PaaS (Platform as a Service)",
+      "DaaS (Database as a Storage)"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which option correctly matches cloud service models?",
+    options: [
+      "IaaS = infrastructure; PaaS = platform (e.g. app engine); SaaS = software (e.g. Gmail)",
+      "IaaS = Gmail; PaaS = virtual machines only; SaaS = networking cables",
+      "SaaS = virtual machines; IaaS = Gmail; PaaS = Blob storage only",
+      "All three models mean the same thing in Azure"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which are major cloud service providers?",
+    options: [
+      "Google Cloud, AWS, Microsoft Azure, IBM Cloud",
+      "Only Microsoft Excel and PowerPoint",
+      "Oracle Forms, MS Access, Notepad",
+      "GitHub Pages only"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which list correctly shows Azure Data Factory components?",
+    options: [
+      "Pipeline, Activity, Dataset, Linked Service, Integration Runtime, Trigger, Data Flow",
+      "Only Notebook, Cluster, and Catalog",
+      "Only Hot, Cool, and Archive tiers",
+      "Only LRS and GRS"
+    ],
+    correct: 0
+  },
+  {
+    q: "In ADF, what does a Linked Service represent?",
+    options: [
+      "Connection information to a data store or compute",
+      "A scheduled clock that always runs every minute",
+      "The Monitor blade used only for billing",
+      "A Power BI dashboard tile"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which are types of ADF triggers?",
+    options: [
+      "Schedule, Tumbling Window, Event (storage/custom)",
+      "Hot, Cool, Archive",
+      "Lookup, Get Metadata, Filter",
+      "LRS, ZRS, GRS"
+    ],
+    correct: 0
+  },
+  {
+    q: "What best describes a Schedule trigger vs Tumbling Window trigger?",
+    options: [
+      "Schedule runs on clock time (fire-and-forget); Tumbling Window fires at regular intervals from a start time with window awareness",
+      "Both are identical; only the name differs in the UI",
+      "Tumbling Window only works for emails; Schedule only works for SQL",
+      "Schedule is only for Debug; Tumbling Window is only for Fail activity"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which Integration Runtime is typically used to connect to on-premises / private network data?",
+    options: [
+      "Self-hosted IR (SHIR)",
+      "AutoResolve IR only (cannot reach private networks)",
+      "Azure-SSIS only for Blob copy",
+      "Airflow IR only for Power BI"
+    ],
+    correct: 0
+  },
+  {
+    q: "Azure Storage performance tiers include:",
+    options: [
+      "Standard (most scenarios) and Premium (low latency)",
+      "Only Hot and Archive",
+      "Only Basic and Business Critical DTU",
+      "Only Public and Private"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which redundancy keeps multiple copies in a single physical location (datacenter)?",
+    options: [
+      "LRS (Locally Redundant Storage)",
+      "GRS (Geo-Redundant Storage)",
+      "ZRS (Zone-Redundant Storage)",
+      "GZRS (Geo-Zone-Redundant Storage)"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which access tier is intended for data that is rarely accessed and often kept for long-term retention (e.g. ~180 days mindset)?",
+    options: [
+      "Archive",
+      "Hot",
+      "Premium IR",
+      "Tumbling Window"
+    ],
+    correct: 0
+  },
+  {
+    q: "Cool access tier is generally for data that is infrequently accessed and often stored around:",
+    options: [
+      "About 30 days mindset (infrequent access / backup style)",
+      "Always real-time streaming only",
+      "Only in-memory Spark cache",
+      "Exactly 1 hour then auto-delete"
+    ],
+    correct: 0
+  },
+  {
+    q: "MMK and CMK in encryption refer to:",
+    options: [
+      "Microsoft Managed Keys and Customer Managed Keys",
+      "Metadata Mapping Keys and Copy Mapping Keys",
+      "Managed Metadata Kernel and Cluster Managed Kernel",
+      "Monthly Maintenance Kit and Cloud Maintenance Kit"
+    ],
+    correct: 0
+  },
+  {
+    q: "Types of data storage services commonly under Azure Storage account include:",
+    options: [
+      "Containers (Blob), File Shares, Queues, Tables",
+      "Only Pipelines and Triggers",
+      "Only Synapse notebooks",
+      "Only Key Vault secrets"
+    ],
+    correct: 0
+  },
+  {
+    q: "What is the main difference between Debug and Trigger in ADF?",
+    options: [
+      "Debug is a test run for troubleshooting before publish; Trigger is used for scheduled/production runs after validation",
+      "Debug always writes to production; Trigger only opens the Monitor blade",
+      "Trigger is only available in Debug mode",
+      "They are the same button with two labels"
+    ],
+    correct: 0
+  },
+  {
+    q: "How can you achieve nested-loop style processing in ADF when there is no direct nested ForEach?",
+    options: [
+      "Use Lookup/Get Metadata → ForEach, and for deeper nesting call another pipeline via Execute Pipeline that has its own ForEach",
+      "Put two ForEach activities inside each other directly in the same canvas (fully supported nested ForEach UI)",
+      "Only use Wait activity repeatedly",
+      "Nested loops are impossible in ADF"
+    ],
+    correct: 0
+  },
+  {
+    q: "What is the purpose of Get Metadata activity?",
+    options: [
+      "Retrieve dataset properties such as child items, structure, size, last modified — useful for validation and driving ForEach",
+      "Return up to 5000 full data rows from SQL as the primary goal",
+      "Encrypt storage accounts with CMK",
+      "Create tumbling window triggers automatically"
+    ],
+    correct: 0
+  },
+  {
+    q: "Lookup activity vs Get Metadata — which statement is correct?",
+    options: [
+      "Get Metadata returns properties (size, schema, child items); Lookup returns actual data rows (e.g. list of IDs/config)",
+      "Lookup only returns file size; Get Metadata returns SQL row data only",
+      "They are identical activities with different icons",
+      "Get Metadata can return unlimited rows; Lookup cannot return properties"
+    ],
+    correct: 0
+  },
+  {
+    q: "What are important Lookup activity limitations?",
+    options: [
+      "Up to 5000 rows, output max about 4 MB, timeout can be up to 24 hours",
+      "Unlimited rows and unlimited output size with no timeout",
+      "Maximum 10 rows and 10 KB only",
+      "Lookup cannot read CSV or SQL sources"
+    ],
+    correct: 0
+  },
+  {
+    q: "To optimize Copy of huge data in ADF, DIU and Parallelism are tuned where?",
+    options: [
+      "Copy activity → Settings (DIU often 2–256; parallelism / degree of copy parallelism also configurable; ForEach concurrency separately)",
+      "Only inside Linked Service password field",
+      "Only in Trigger recurrence minutes",
+      "Only by renaming the pipeline"
+    ],
+    correct: 0
+  },
+  {
+    q: "Which practices help design a scalable ETL/ELT pipeline for large datasets?",
+    options: [
+      "Use compression, parameters/dynamic content, Lookup/Get Metadata/ForEach reuse, DIU & parallelism, Parquet/Delta, and alerts on failure",
+      "Create one hard-coded pipeline per table with no parameters and always DIU = 2",
+      "Avoid ForEach and always duplicate 100 copy activities manually",
+      "Store everything as unpartitioned tiny CSV files only"
+    ],
+    correct: 0
+  },
+  {
+    q: "ETL vs ELT — which is most accurate?",
+    options: [
+      "ETL transforms before load (often smaller/complex transforms); ELT loads first then transforms in the destination (fits large/lakehouse workloads)",
+      "ELT always means no transformation is ever allowed",
+      "ETL can only work on unstructured video; ELT only on Excel",
+      "There is no difference; both acronyms mean Debug mode"
+    ],
+    correct: 0
+  },
+  {
+    q: "Same table name exists in different databases — a practical ADF approach is:",
+    options: [
+      "Parameterize connections/table names, Lookup the list, ForEach, then Copy each one",
+      "Hard-code 50 pipelines with no parameters",
+      "Use only Archive tier encryption",
+      "Use Schedule trigger without any activities"
+    ],
+    correct: 0
+  },
+  {
+    q: "What is the Monitor window in ADF mainly used for?",
+    options: [
+      "Track pipeline runs, activity runs, triggers, and IR status — execution, performance, and failures",
+      "Design Linked Services only",
+      "Create storage access tiers",
+      "Replace the need for datasets"
+    ],
+    correct: 0
+  }
+];
+
+const PASS_PERCENT = 75;
+let examQuestions = [];
+let studentName = "";
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildExam() {
+  // Shuffle question order, then shuffle options (track new correct index)
+  const picked = shuffle(QUESTION_BANK);
+  examQuestions = picked.map((item, idx) => {
+    const optionObjs = item.options.map((text, i) => ({ text, isCorrect: i === item.correct }));
+    const shuffledOpts = shuffle(optionObjs);
+    return {
+      id: idx,
+      q: item.q,
+      options: shuffledOpts,
+      correctIndex: shuffledOpts.findIndex(o => o.isCorrect)
+    };
+  });
+}
+
+function show(el) { el.classList.remove("hidden"); }
+function hide(el) { el.classList.add("hidden"); }
+
+const startScreen = document.getElementById("startScreen");
+const examScreen = document.getElementById("examScreen");
+const resultScreen = document.getElementById("resultScreen");
+const nameInput = document.getElementById("studentName");
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  const name = nameInput.value.trim();
+  if (!name) {
+    nameInput.focus();
+    nameInput.style.borderColor = "#dc2626";
+    return;
+  }
+  studentName = name;
+  buildExam();
+  renderExam();
+  hide(startScreen);
+  hide(resultScreen);
+  show(examScreen);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+function renderExam() {
+  document.getElementById("nameLabel").textContent = "Candidate: " + studentName;
+  document.getElementById("progressLabel").textContent = examQuestions.length + " questions";
+  const list = document.getElementById("questionList");
+  list.innerHTML = examQuestions.map((qq, i) => {
+    const opts = qq.options.map((o, oi) => `
+      <label class="opt">
+        <input type="radio" name="q${i}" value="${oi}" />
+        <span><strong>${String.fromCharCode(65 + oi)}.</strong> ${escapeHtml(o.text)}</span>
+      </label>
+    `).join("");
+    return `
+      <article class="q" data-q="${i}">
+        <h3><span class="num">Q${i + 1}.</span> ${escapeHtml(qq.q)}</h3>
+        ${opts}
+      </article>
+    `;
+  }).join("");
+}
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  document.querySelectorAll('#questionList input[type="radio"]').forEach(r => { r.checked = false; });
+});
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const unanswered = [];
+  const answers = examQuestions.map((_, i) => {
+    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!selected) unanswered.push(i + 1);
+    return selected ? Number(selected.value) : null;
+  });
+
+  if (unanswered.length) {
+    const go = confirm(
+      `You left ${unanswered.length} question(s) unanswered (Q${unanswered.slice(0, 8).join(", ")}${unanswered.length > 8 ? "…" : ""}).\n\nSubmit anyway?`
+    );
+    if (!go) {
+      const first = document.querySelector(`[data-q="${unanswered[0] - 1}"]`);
+      if (first) first.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+  }
+
+  let correctCount = 0;
+  const review = [];
+  examQuestions.forEach((qq, i) => {
+    const chosen = answers[i];
+    const isCorrect = chosen === qq.correctIndex;
+    if (isCorrect) correctCount++;
+    review.push({
+      num: i + 1,
+      q: qq.q,
+      chosen,
+      correctIndex: qq.correctIndex,
+      options: qq.options,
+      isCorrect
+    });
+  });
+
+  const total = examQuestions.length;
+  const percent = Math.round((correctCount / total) * 100);
+  const passed = percent >= PASS_PERCENT;
+
+  hide(examScreen);
+  show(resultScreen);
+
+  document.getElementById("resultName").textContent = studentName;
+  const scoreEl = document.getElementById("scoreBig");
+  scoreEl.textContent = `${correctCount} / ${total}  (${percent}%)`;
+  scoreEl.className = "score-big " + (passed ? "pass" : "fail");
+
+  const badge = document.getElementById("passBadge");
+  badge.textContent = passed ? "PASSED" : "NOT PASSED";
+  badge.className = "badge-result " + (passed ? "badge-pass" : "badge-fail");
+
+  document.getElementById("resultDetail").textContent =
+    `Passing mark is ${PASS_PERCENT}%. You scored ${percent}%. ` +
+    (passed
+      ? "Great work — you cleared the exam."
+      : "Review the incorrect answers below and retake when ready.");
+
+  const reviewList = document.getElementById("reviewList");
+  reviewList.innerHTML = `<h2 style="font-size:1.1rem;margin:0 0 10px;">Answer review</h2>` + review.map(r => {
+    const opts = r.options.map((o, oi) => {
+      let cls = "opt";
+      if (oi === r.correctIndex) cls += " correct-mark";
+      if (r.chosen === oi && !r.isCorrect) cls += " wrong-mark";
+      const tag = oi === r.correctIndex ? " ✓ Correct" : (r.chosen === oi ? " ✗ Your answer" : "");
+      return `<div class="${cls}"><span><strong>${String.fromCharCode(65 + oi)}.</strong> ${escapeHtml(o.text)}${tag ? ` <em>(${tag.trim()})</em>` : ""}</span></div>`;
+    }).join("");
+    return `
+      <article class="q">
+        <h3><span class="num">Q${r.num}.</span> ${escapeHtml(r.q)}
+          <span class="review-note">${r.isCorrect ? "✅ Correct" : "❌ Incorrect"}</span>
+        </h3>
+        ${opts}
+      </article>
+    `;
+  }).join("");
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+document.getElementById("retryBtn").addEventListener("click", () => {
+  hide(resultScreen);
+  show(startScreen);
+  nameInput.value = studentName;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
+nameInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("startBtn").click();
+});
+</script>
+</body>
+</html>

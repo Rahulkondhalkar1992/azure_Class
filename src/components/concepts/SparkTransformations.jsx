@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const narrow = [
   { name: 'map()', desc: 'Apply function to each element', ex: 'df.rdd.map(lambda x: x*2)' },
@@ -23,7 +23,7 @@ const flowSteps = [
   { label: 'Output', type: 'output' },
 ]
 
-export default function SparkTransformations() {
+export default function SparkTransformations({ embedded = false } = {}) {
   const [step, setStep] = useState(0)
 
   useEffect(() => {
@@ -32,14 +32,14 @@ export default function SparkTransformations() {
   }, [])
 
   return (
-    <div className="card overflow-hidden p-5 sm:p-6">
-      <div className="mb-4">
+    <div className={embedded ? '' : 'card overflow-hidden p-5 sm:p-6'}>
+      {!embedded && (<div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">Day 4</p>
         <h3 className="font-display text-lg font-semibold">Spark Transformations & Actions</h3>
         <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
           Transformations are lazy (build a plan). Actions trigger execution via the DAG.
         </p>
-      </div>
+      </div>)}
 
       <div className="grid gap-4 lg:grid-cols-2">
         {/* Narrow vs Wide */}
