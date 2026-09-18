@@ -14,7 +14,6 @@ export const glossaryTerms = [
   { term: 'Unity Catalog', category: 'Databricks', definition: 'Governance layer for Databricks: metastore → catalog → schema → table/view with centralized permissions.' },
   { term: 'Lakehouse', category: 'Architecture', definition: 'Architecture that combines data lake storage with warehouse reliability (ACID tables, SQL, governance).' },
   { term: 'Star Schema', category: 'Modeling', definition: 'Dimensional model with a central fact table surrounded by denormalized dimension tables.' },
-  { term: 'SCD Type 2', category: 'Modeling', definition: 'Slowly Changing Dimension pattern that keeps history by inserting new dimension rows with effective dates.' },
   { term: 'Surrogate Key', category: 'Modeling', definition: 'System-generated key used in the warehouse/lakehouse instead of relying only on source natural keys.' },
   { term: 'Composite Key', category: 'Modeling', definition: 'A key formed from two or more columns that together uniquely identify a row.' },
   { term: 'PySpark', category: 'Spark', definition: 'Python API for Apache Spark used for distributed DataFrame transforms on Databricks clusters.' },

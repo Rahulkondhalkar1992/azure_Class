@@ -15,15 +15,18 @@ export default function Footer() {
           <p className="font-semibold">Program</p>
           <div className="mt-3 flex flex-col gap-2 text-slate-500 dark:text-slate-400">
             <Link to="/syllabus">Syllabus</Link>
-            <Link to="/interview">Interview questions</Link>
+            <Link to="/hub">Interview Hub</Link>
+            <Link to="/hub?tab=questions">Interview questions</Link>
+            <Link to="/hub?tab=quiz">Self-assessment</Link>
+            <Link to="/hub?tab=adf">ADF assignments</Link>
+            <Link to="/hub?tab=glossary">Glossary</Link>
             <Link to="/project">Industry project</Link>
             <p className="pt-1 font-semibold text-slate-700 dark:text-slate-200">Tools</p>
-            <Link to="/quiz">Self-assessment quiz</Link>
+            <Link to="/concepts">Concepts</Link>
             <Link to="/labs">SQL & Python labs</Link>
             <Link to="/whiteboard">Whiteboard</Link>
             <Link to="/resume">Resume builder</Link>
             <Link to="/faq">FAQ</Link>
-            <Link to="/glossary">Glossary</Link>
           </div>
         </div>
         <div className="text-sm">

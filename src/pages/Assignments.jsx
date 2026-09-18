@@ -16,7 +16,7 @@ function LevelBadge({ level }) {
   )
 }
 
-export default function Assignments() {
+export default function Assignments({ embedded = false }) {
   const [openId, setOpenId] = useState(adfAssignments[0]?.id)
   const [hintOpen, setHintOpen] = useState({})
   const [levelFilter, setLevelFilter] = useState('All')
@@ -33,16 +33,53 @@ export default function Assignments() {
     setHintOpen((prev) => ({ ...prev, [key]: !prev[key] }))
 
   return (
-    <div className="container-page py-10 sm:py-14">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
-        Tools · Assignments
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-bold">ADF Assignments — build real pipelines</h1>
-      <p className="mt-3 max-w-3xl text-slate-600 dark:text-slate-300">
+    <div className={embedded ? '' : 'container-page py-10 sm:py-14'}>
+      {!embedded && (
+        <>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
+            Interview Hub · ADF Assignment
+          </p>
+          <h1 className="mt-2 font-display text-4xl font-bold">ADF Assignments — build real pipelines</h1>
+        </>
+      )}
+      {embedded && (
+        <h2 className="font-display text-xl font-semibold">ADF Assignments — build real pipelines</h2>
+      )}
+      <p className={`${embedded ? 'mt-2' : 'mt-3'} max-w-3xl text-sm text-slate-600 dark:text-slate-300 sm:text-base`}>
         {adfAssignmentMeta.total} scenario-based assignments ({adfAssignmentMeta.difficulty}). Practice{' '}
         {adfAssignmentMeta.activitiesCovered.join(', ')} with expression building (
         {adfAssignmentMeta.expressionSkills.slice(0, 6).join(', ')}, …).
       </p>
+
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {filtered.slice(0, 3).map((a) => (
+          <button
+            key={`card-${a.id}`}
+            type="button"
+            onClick={() => setOpenId(a.id)}
+            className={`card p-4 text-left transition hover:border-azure-400 ${
+              openId === a.id ? 'ring-2 ring-azure-500/35' : ''
+            }`}
+          >
+            <div className="flex flex-wrap items-center gap-2">
+              <LevelBadge level={a.level} />
+              <span className="text-[11px] font-semibold text-slate-500">{a.tasks.length} tasks</span>
+            </div>
+            <p className="mt-2 font-display text-base font-semibold">{a.title}</p>
+            <p className="mt-1 line-clamp-2 text-xs text-slate-500">{a.scenario}</p>
+            <div className="mt-3 flex flex-wrap gap-1">
+              {a.activities.slice(0, 3).map((act) => (
+                <span key={act} className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] dark:bg-white/10">
+                  {act}
+                </span>
+              ))}
+            </div>
+            <p className="mt-3 text-sm font-semibold text-azure-600 dark:text-azure-400">
+              {openId === a.id ? 'Continue ↓' : 'Start →'}
+            </p>
+          </button>
+        ))}
+      </div>
 
       <div className="mt-6 flex flex-wrap gap-2">
         {['All', 'Medium', 'Hard'].map((f) => (

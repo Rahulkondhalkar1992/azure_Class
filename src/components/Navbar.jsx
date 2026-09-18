@@ -8,8 +8,7 @@ const links = [
   { to: '/', label: 'Home' },
   { to: '/learn', label: 'Learn with us' },
   { to: '/syllabus', label: 'Syllabus' },
-  { to: '/glossary', label: 'Glossary' },
-  { to: '/interview', label: 'Interview' },
+  { to: '/hub', label: 'Interview Hub' },
   { to: '/ai', label: 'AI + Databricks' },
 ]
 
@@ -20,8 +19,6 @@ const joinLinks = [
 
 const toolLinks = [
   { to: '/concepts', label: 'Concepts', hint: 'Learn + animate + interview-style questions' },
-  { to: '/assignments', label: 'ADF Assignments', hint: '7 medium–hard pipeline scenarios' },
-  { to: '/quiz', label: 'Self-assessment Quiz', hint: 'Timed module quizzes by experience' },
   { to: '/labs', label: 'SQL & Python Labs', hint: 'Practice queries and code' },
   { to: '/whiteboard', label: 'Whiteboard', hint: 'Draw lakehouse architecture' },
   { to: '/resume', label: 'Resume Builder', hint: 'DE resume with PDF download' },

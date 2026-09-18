@@ -150,8 +150,9 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .pulse-node,
   .layer-float,
-  .spark-bar {
-    animation: none;
+  .spark-bar,
+  [class*='animate-\\[fadeSlideIn'] {
+    animation: none !important;
   }
 }
 

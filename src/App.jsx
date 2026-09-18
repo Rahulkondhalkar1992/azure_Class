@@ -6,21 +6,18 @@ import Home from './pages/Home.jsx'
 import Learn from './pages/Learn.jsx'
 import Syllabus from './pages/Syllabus.jsx'
 import Project from './pages/Project.jsx'
-import Interview from './pages/Interview.jsx'
 import Whiteboard from './pages/Whiteboard.jsx'
 import Contact from './pages/Contact.jsx'
 import UpcomingAI from './pages/UpcomingAI.jsx'
 import Labs from './pages/Labs.jsx'
 import ResumeBuilder from './pages/ResumeBuilder.jsx'
-import Quiz from './pages/Quiz.jsx'
 import Faq from './pages/Faq.jsx'
-import Glossary from './pages/Glossary.jsx'
 import Login from './pages/Login.jsx'
 import Inactive from './pages/Inactive.jsx'
 import Account from './pages/Account.jsx'
 import AdminUsers from './pages/AdminUsers.jsx'
 import Concepts from './pages/Concepts.jsx'
-import Assignments from './pages/Assignments.jsx'
+import InterviewHub from './pages/InterviewHub.jsx'
 import { useAuth } from './context/AuthContext.jsx'
 
 function Shell({ children, hideChrome = false }) {
@@ -88,20 +85,21 @@ export default function App() {
       <Route path="/" element={<Shell><Home /></Shell>} />
       <Route path="/learn" element={<Shell><Learn /></Shell>} />
       <Route path="/syllabus" element={<Shell><Syllabus /></Shell>} />
-      <Route path="/interview" element={<Shell><Interview /></Shell>} />
+      <Route path="/hub" element={<Shell><InterviewHub /></Shell>} />
+      <Route path="/interview" element={<Navigate to="/hub?tab=questions" replace />} />
+      <Route path="/glossary" element={<Navigate to="/hub?tab=glossary" replace />} />
+      <Route path="/quiz" element={<Navigate to="/hub?tab=quiz" replace />} />
+      <Route path="/assignments" element={<Navigate to="/hub?tab=adf" replace />} />
       <Route path="/ai" element={<Shell><UpcomingAI /></Shell>} />
-      <Route path="/glossary" element={<Shell><Glossary /></Shell>} />
       <Route path="/contact" element={<ContactRoute />} />
       <Route path="/faq" element={<Shell><Faq /></Shell>} />
 
       {/* Tools — login required */}
-      <Route path="/quiz" element={<Guarded><Quiz /></Guarded>} />
       <Route path="/labs" element={<Guarded><Labs /></Guarded>} />
       <Route path="/whiteboard" element={<Guarded><Whiteboard /></Guarded>} />
       <Route path="/resume" element={<Guarded><ResumeBuilder /></Guarded>} />
       <Route path="/project" element={<Guarded><Project /></Guarded>} />
       <Route path="/concepts" element={<Guarded><Concepts /></Guarded>} />
-      <Route path="/assignments" element={<Guarded><Assignments /></Guarded>} />
 
       {/* Account / Admin — login required */}
       <Route path="/account" element={<Guarded><Account /></Guarded>} />

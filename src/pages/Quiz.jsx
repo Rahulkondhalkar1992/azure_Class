@@ -14,7 +14,7 @@ const phases = {
   result: 'result',
 }
 
-export default function Quiz() {
+export default function Quiz({ embedded = false }) {
   const [phase, setPhase] = useState(phases.setup)
   const [experienceId, setExperienceId] = useState(experienceTiers[0].id)
   const [moduleId, setModuleId] = useState(quizModules[0].id)
@@ -92,12 +92,19 @@ export default function Quiz() {
   }
 
   return (
-    <div className="container-page py-10 sm:py-14">
-      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
-        Tools · Self-assessment
-      </p>
-      <h1 className="mt-2 font-display text-4xl font-bold">Timed module quiz</h1>
-      <p className="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+    <div className={embedded ? '' : 'container-page py-10 sm:py-14'}>
+      {!embedded && (
+        <>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-azure-600 dark:text-azure-400">
+            Interview Hub · Self-assessment
+          </p>
+          <h1 className="mt-2 font-display text-4xl font-bold">Timed module quiz</h1>
+        </>
+      )}
+      {embedded && (
+        <h2 className="font-display text-xl font-semibold">Timed module quiz</h2>
+      )}
+      <p className={`${embedded ? 'mt-2' : 'mt-3'} max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base`}>
         Pick your experience band first — question difficulty changes. Each module has 10 questions,
         30 seconds each. Pass mark is {PASS_PERCENT}%. Missed items become your top interview drill list.
       </p>
@@ -238,7 +245,7 @@ export default function Quiz() {
               >
                 Change module / level
               </button>
-              <Link to="/interview" className="btn-ghost">
+              <Link to="/hub?tab=questions" className="btn-ghost">
                 Open interview bank
               </Link>
             </div>
